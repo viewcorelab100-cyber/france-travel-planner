@@ -1,0 +1,23 @@
+[
+  {"id":"NS1","name":"영국인 산책로","desc":"지중해 해변 따라 7km, 니스의 상징","city":"nice","cat":"산책","gmap":"Promenade des Anglais Nice","zone":"nice-promenade"},
+  {"id":"NS2","name":"니스 구시가지 (Vieux Nice)","desc":"좁은 골목, 파스텔 건물, 젤라토·소카 맛집","city":"nice","cat":"거리","gmap":"Vieux Nice","zone":"nice-old"},
+  {"id":"NS3","name":"쿠르 살레야 꽃시장","desc":"화~일 오전 꽃·채소 마르쉐, 월요일은 골동품","city":"nice","cat":"마켓","gmap":"Cours Saleya Nice","zone":"nice-old"},
+  {"id":"NS4","name":"성 언덕 (Colline du Château)","desc":"니스 최고 전망대, 해안+구시가지 파노라마","city":"nice","cat":"전망","gmap":"Colline du Château Nice","zone":"nice-old"},
+  {"id":"NS5","name":"마세나 광장","desc":"니스 중심 광장, 분수+야간 조명 조각상","city":"nice","cat":"광장","gmap":"Place Masséna Nice","zone":"nice-center"},
+  {"id":"NS6","name":"니스 항구 (Port Lympia)","desc":"컬러풀 건물, 산책하며 요트 구경","city":"nice","cat":"산책","gmap":"Port Lympia Nice","zone":"nice-port"},
+  {"id":"NS7","name":"Liberation 시장","desc":"로컬 재래시장, 트램 Libération역 바로 앞","city":"nice","cat":"마켓","gmap":"Marché de la Libération Nice","zone":"nice-center"},
+  {"id":"NS8","name":"에즈 마을","desc":"해발 400m 독수리 둥지 마을, 절벽 위 중세 마을","city":"nice","cat":"근교","gmap":"Èze Village","zone":"nice-suburb"},
+  {"id":"NS9","name":"모나코 (몬테카를로)","desc":"카지노 광장, 왕궁, F1 코스, 해양박물관","city":"nice","cat":"근교","gmap":"Monte-Carlo Monaco","zone":"nice-suburb"},
+  {"id":"PS1","name":"에펠탑","desc":"2층 전망대 추천, 야경은 매시 정각 반짝임","city":"paris","cat":"랜드마크","gmap":"Tour Eiffel Paris","zone":"paris-eiffel"},
+  {"id":"PS2","name":"개선문 + 샹젤리제","desc":"옥상 전망대, 샹젤리제 산책+쇼핑","city":"paris","cat":"랜드마크","gmap":"Arc de Triomphe Paris","zone":"paris-eiffel"},
+  {"id":"PS3","name":"노트르담 대성당","desc":"2024년 재개장, 외부 무료, 고딕 건축의 걸작","city":"paris","cat":"건축","gmap":"Cathédrale Notre-Dame de Paris","zone":"paris-latin"},
+  {"id":"PS4","name":"몽마르뜨 + 사크레쾨르","desc":"언덕 위 화이트 성당, 화가 골목, 파리 전망","city":"paris","cat":"랜드마크","gmap":"Basilique du Sacré-Cœur Paris","zone":"paris-montmartre"},
+  {"id":"PS5","name":"마레 지구","desc":"피카소 미술관, 보주 광장, 빈티지샵, 팔라펠","city":"paris","cat":"거리","gmap":"Le Marais Paris","zone":"paris-marais"},
+  {"id":"PS6","name":"뤽상부르 공원","desc":"파리지앵 힐링 스폿, 벤치에서 피크닉","city":"paris","cat":"공원","gmap":"Jardin du Luxembourg Paris","zone":"paris-stgermain"},
+  {"id":"PS7","name":"트로카데로 광장","desc":"에펠탑 정면 포토스폿, 특히 야경","city":"paris","cat":"전망","gmap":"Trocadéro Paris","zone":"paris-eiffel"},
+  {"id":"PS8","name":"생제르맹 데 프레","desc":"카페 문화의 성지, 서점·갤러리 산책","city":"paris","cat":"거리","gmap":"Saint-Germain-des-Prés Paris","zone":"paris-stgermain"},
+  {"id":"PS9","name":"갈르리 라파예트","desc":"화려한 돔 천장, 옥상 에펠탑 뷰 (무료)","city":"paris","cat":"쇼핑","gmap":"Galeries Lafayette Haussmann Paris","zone":"paris-opera"},
+  {"id":"PS10","name":"봉막셰 백화점","desc":"세계 최초 백화점, 식품관 구경 필수","city":"paris","cat":"쇼핑","gmap":"Le Bon Marché Paris","zone":"paris-stgermain"},
+  {"id":"PS11","name":"생마르탱 운하","desc":"아멜리에 촬영지, 다리 위 산책·피크닉","city":"paris","cat":"산책","gmap":"Canal Saint-Martin Paris","zone":"paris-latin"},
+  {"id":"PS12","name":"베르사유 궁전","desc":"거울의 방, 정원, 월요일 휴관","city":"paris","cat":"근교","gmap":"Château de Versailles","zone":"paris-suburb"}
+]

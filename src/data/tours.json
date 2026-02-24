@@ -1,0 +1,13 @@
+[
+  {"id":"NT1","name":"모나코 + 에즈 당일투어","price":"6~10만원","dur":"6~8h","city":"nice","note":"4월 날씨 최적, 강추","link":"https://www.myrealtrip.com/offers/68087","zone":"nice-suburb","gmap":"Nice"},
+  {"id":"NT2","name":"니스 푸드투어","price":"70~100€","dur":"3~4h","city":"nice","link":"https://www.myrealtrip.com/cities?key_name=Nice","zone":"nice-old","gmap":"Vieux Nice"},
+  {"id":"NT3","name":"생폴드방스 + Maeght","price":"버스비만","dur":"반나절","city":"nice","note":"버스 400번","zone":"nice-suburb","gmap":"Saint-Paul-de-Vence"},
+  {"id":"NT4","name":"니스 올드타운 워킹투어","price":"20~40€","dur":"2~3h","city":"nice","link":"https://www.myrealtrip.com/cities?key_name=Nice","zone":"nice-old","gmap":"Vieux Nice"},
+  {"id":"PT1","name":"디저트 투어","price":"65,000원+20€","dur":"3.5h","city":"paris","note":"평점 4.9/619리뷰","link":"https://experiences.myrealtrip.com/products/3434368","zone":"paris-stgermain","gmap":"Saint-Germain-des-Prés Paris"},
+  {"id":"PT2","name":"샴페인 와이너리","price":"290,000원","dur":"11h","city":"paris","note":"2인 협의","link":"https://experiences.myrealtrip.com/products/3410168","zone":"paris-suburb","gmap":"Paris"},
+  {"id":"PT3","name":"샴페인 투어 (단체)","price":"150~250€/인","dur":"10~12h","city":"paris","zone":"paris-suburb","gmap":"Paris"},
+  {"id":"PT4","name":"파리 야경 투어","price":"3~6만원","dur":"3~4h","city":"paris","link":"https://www.myrealtrip.com/cities?key_name=Paris","zone":"paris-eiffel","gmap":"Tour Eiffel Paris"},
+  {"id":"PT5","name":"세느강 크루즈","price":"2~5만원","dur":"1~1.5h","city":"paris","link":"https://www.myrealtrip.com/cities?key_name=Paris","zone":"paris-eiffel","gmap":"Bateaux Mouches Paris"},
+  {"id":"PT6","name":"베르사유 궁전 투어","price":"5~10만원","dur":"5~7h","city":"paris","note":"월요일 휴관","link":"https://www.myrealtrip.com/cities?key_name=Paris","zone":"paris-suburb","gmap":"Château de Versailles"},
+  {"id":"PT7","name":"몽마르뜨 워킹 투어","price":"2~4만원","dur":"2~3h","city":"paris","link":"https://www.myrealtrip.com/cities?key_name=Paris","zone":"paris-montmartre","gmap":"Sacré-Cœur Paris"}
+]

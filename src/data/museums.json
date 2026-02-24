@@ -1,0 +1,16 @@
+[
+  {"id":"N1","name":"마티스 미술관","desc":"마티스 최대 컬렉션, 종이 오리기 작품","price":"~10€","dur":"1~1.5h","closed":"화","city":"nice","free":false,"gmap":"Musée Matisse Nice","zone":"nice-cimiez"},
+  {"id":"N2","name":"샤갈 미술관","desc":"성서 시리즈 17점, 스테인드글라스","price":"~10€","dur":"1~1.5h","closed":"화","city":"nice","free":false,"gmap":"Musée National Marc Chagall Nice","zone":"nice-cimiez"},
+  {"id":"N3","name":"MAMAC","desc":"이브 클랭, 니키 드 생팔, 루프탑 전망","price":"무료","dur":"1~2h","closed":"월","city":"nice","free":true,"gmap":"MAMAC Nice","zone":"nice-center"},
+  {"id":"N4","name":"보자르 미술관","desc":"모네, 로댕, 뒤피 (17~20세기)","price":"~10€","dur":"1h","closed":"월","city":"nice","free":false,"gmap":"Musée des Beaux-Arts Nice","zone":"nice-center"},
+  {"id":"N5","name":"팔레 라스카리","desc":"17세기 바로크 궁전, 악기 컬렉션","price":"~10€","dur":"45min","closed":"화","city":"nice","free":false,"gmap":"Palais Lascaris Nice","zone":"nice-old"},
+  {"id":"N6","name":"Fondation Maeght","desc":"유럽 최고 현대미술, 미로/자코메티 (근교)","price":"~18€","dur":"2h","closed":"없음","city":"nice","free":false,"gmap":"Fondation Maeght Saint-Paul-de-Vence","zone":"nice-suburb"},
+  {"id":"P1","name":"루브르","desc":"모나리자, 승리의 여신, 밀로의 비너스","price":"~22€","dur":"4~6h","closed":"화","city":"paris","free":false,"gmap":"Musée du Louvre Paris","zone":"paris-louvre"},
+  {"id":"P2","name":"오르세","desc":"인상파 천국 (모네, 르누아르, 고흐)","price":"~16€","dur":"2~3h","closed":"월","city":"paris","free":false,"gmap":"Musée d'Orsay Paris","zone":"paris-stgermain"},
+  {"id":"P3","name":"오랑주리","desc":"모네 수련 (거대한 8연작)","price":"~12.50€","dur":"1h","closed":"화","city":"paris","free":false,"gmap":"Musée de l'Orangerie Paris","zone":"paris-louvre"},
+  {"id":"P4","name":"로댕 미술관","desc":"생각하는 사람, 지옥의 문 + 봄 정원","price":"~13€","dur":"1.5h","closed":"월","city":"paris","free":false,"gmap":"Musée Rodin Paris","zone":"paris-eiffel"},
+  {"id":"P5","name":"피카소 미술관","desc":"피카소 5,000점+ (마레 지구)","price":"~14€","dur":"1.5h","closed":"월","city":"paris","free":false,"gmap":"Musée Picasso Paris","zone":"paris-marais"},
+  {"id":"P6","name":"프티 팔레","desc":"모네, 쿠르베 등 (상설전 무료!)","price":"무료","dur":"1~2h","closed":"월","city":"paris","free":true,"gmap":"Petit Palais Paris","zone":"paris-eiffel"},
+  {"id":"P7","name":"생트샤펠","desc":"파리 최고 스테인드글라스","price":"~11.50€","dur":"30min","closed":"없음","city":"paris","free":false,"gmap":"Sainte-Chapelle Paris","zone":"paris-louvre"},
+  {"id":"P8","name":"자크마르앙드레","desc":"이탈리아 르네상스, 귀족 저택","price":"~16€","dur":"1.5h","closed":"없음","city":"paris","free":false,"gmap":"Musée Jacquemart-André Paris","zone":"paris-opera"}
+]

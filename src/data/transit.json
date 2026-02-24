@@ -1,0 +1,11 @@
+{
+  "nice→paris": {
+    "label": "니스 → 파리 이동",
+    "options": [
+      {"icon": "🚄", "name": "TGV (고속열차)", "price": "26~190€", "dur": "5.5시간", "desc": "SNCF Connect 예약, 좌석 넓음"},
+      {"icon": "🚄", "name": "OUIGO (저가 고속)", "price": "19€~", "dur": "5.5시간", "desc": "사전 예약 필수, 수하물 제한"},
+      {"icon": "✈️", "name": "비행기", "price": "34€~", "dur": "1.5시간", "desc": "공항 이동 약 2시간 추가"}
+    ],
+    "bookLink": "https://www.sncf-connect.com/"
+  }
+}
