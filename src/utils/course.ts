@@ -9,12 +9,13 @@ import ZT from '@/data/zone-travel.json';
 type AnyItem = Museum | Food | Tour | Spot | CustomItem | null;
 
 export function findItem(id: string, type: string, customItems: CustomItem[] = []): AnyItem {
+  // 커스텀 아이템 우선 검색 (type이 museum/food 등이어도 ID로 매칭)
+  const c = customItems.find((x) => x.id === id);
+  if (c) return c;
   if (type === 'museum') return (MUSEUMS as Museum[]).find((x) => x.id === id) || null;
   if (type === 'food') return (FOODS as Food[]).find((x) => x.id === id) || null;
   if (type === 'tour') return (TOURS as Tour[]).find((x) => x.id === id) || null;
   if (type === 'spot') return (SPOTS as Spot[]).find((x) => x.id === id) || null;
-  const c = customItems.find((x) => x.id === id);
-  if (c) return c;
   return null;
 }
 

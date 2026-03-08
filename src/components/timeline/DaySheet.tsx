@@ -1,6 +1,6 @@
 'use client';
 
-import type { Day, ScheduleItem } from '@/types';
+import type { Day, ScheduleItem, CustomItem } from '@/types';
 import MUSEUMS from '@/data/museums.json';
 import FOODS from '@/data/foods.json';
 import TOURS from '@/data/tours.json';
@@ -12,11 +12,15 @@ import TransitCard from '@/components/content/TransitCard';
 interface DaySheetProps {
   day: Day;
   items: ScheduleItem[];
+  customItems: CustomItem[];
   onRemove: (index: number) => void;
   onAdd: () => void;
 }
 
-function itemDetail(it: ScheduleItem): string {
+function itemDetail(it: ScheduleItem, customItems: CustomItem[]): string {
+  // 커스텀 아이템 우선 검색
+  const c = customItems.find((x) => x.id === it.id);
+  if (c) return [c.price, c.cat].filter(Boolean).join(' · ') || '직접 추가';
   if (it.type === 'museum') { const m = MUSEUMS.find((x) => x.id === it.id); return m ? `${m.price} · ${m.dur}` : ''; }
   if (it.type === 'food') { const f = FOODS.find((x) => x.id === it.id); return f ? `${f.price} · ${f.cat}` : ''; }
   if (it.type === 'tour') { const t = TOURS.find((x) => x.id === it.id); return t ? `${t.price} · ${t.dur}` : ''; }
@@ -24,7 +28,7 @@ function itemDetail(it: ScheduleItem): string {
   return '';
 }
 
-export default function DaySheet({ day, items, onRemove, onAdd }: DaySheetProps) {
+export default function DaySheet({ day, items, customItems, onRemove, onAdd }: DaySheetProps) {
   const transitData = day.transit ? (TRANSIT_DATA as Record<string, MajorTransit>)[day.transit] : null;
 
   return (
@@ -40,7 +44,7 @@ export default function DaySheet({ day, items, onRemove, onAdd }: DaySheetProps)
         <div className="empty">아직 추가된 일정이 없습니다</div>
       ) : (
         items.map((it, i) => {
-          const det = itemDetail(it);
+          const det = itemDetail(it, customItems);
           return (
             <div key={i} className="si">
               <div className="si-left">

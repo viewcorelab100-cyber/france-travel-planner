@@ -40,7 +40,10 @@ export default function AddSheet({ day, existingIds, customItems, onAdd }: AddSh
   function handleAdd(id: string, type: ContentType, name: string) {
     const entry: ScheduleItem = { id, type, name };
     const cust = customItems.find((c) => c.id === id);
-    if (cust) entry.gmap = cust.gmap;
+    if (cust) {
+      entry.gmap = cust.gmap;
+      entry.zone = cust.zone;
+    }
     onAdd(entry);
   }
 

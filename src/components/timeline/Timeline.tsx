@@ -57,7 +57,7 @@ export default function Timeline() {
 
       <BottomSheet open={sheet === 'day'} onClose={close}
         title={curDay ? `${curDay.date} (${curDay.day}) ${curDay.city}` : ''}>
-        {curDay && <DaySheet day={curDay} items={curItems} onRemove={handleRemove} onAdd={() => setSheet('add')} />}
+        {curDay && <DaySheet day={curDay} items={curItems} customItems={custom} onRemove={handleRemove} onAdd={() => setSheet('add')} />}
       </BottomSheet>
 
       <BottomSheet open={sheet === 'add'} onClose={() => curDate ? setSheet('day') : close()}
