@@ -1,0 +1,2130 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>프랑스 여행 플래너</title>
+  <style>
+    @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css');
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    :root {
+      --bg: #f7f8fa;
+      --white: #fff;
+      --gray50: #f9fafb;
+      --gray100: #f2f4f6;
+      --gray200: #e5e8eb;
+      --gray300: #d1d6db;
+      --gray400: #b0b8c1;
+      --gray500: #8b95a1;
+      --gray600: #6b7684;
+      --gray700: #4e5968;
+      --gray800: #333d4b;
+      --gray900: #191f28;
+      --blue: #3182f6;
+      --blue-bg: #e8f3ff;
+      --blue-light: #ebf5ff;
+      --red: #f04452;
+      --red-bg: #fff0f0;
+      --orange: #f59e0b;
+      --orange-bg: #fff8e1;
+      --green: #00b386;
+      --green-bg: #e8fff3;
+      --purple: #8b5cf6;
+      --purple-bg: #f3f0ff;
+      --pink: #e91e8b;
+      --pink-bg: #fff0f7;
+      --teal: #06b6d4;
+      --teal-bg: #ecfeff;
+      --radius: 16px;
+      --radius-sm: 12px;
+      --radius-xs: 8px;
+      --shadow: 0 2px 8px rgba(0, 0, 0, .04), 0 0 1px rgba(0, 0, 0, .06);
+      --shadow-lg: 0 8px 28px rgba(0, 0, 0, .12);
+      --transition: cubic-bezier(.4, 0, .2, 1);
+      --bottom-nav: 64px;
+    }
+
+    html,
+    body {
+      font-family: 'Pretendard Variable', Pretendard, -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--gray900);
+      min-height: 100vh;
+      overflow-x: hidden;
+      padding-bottom: calc(var(--bottom-nav) + env(safe-area-inset-bottom, 20px) + 40px);
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    /* ===== Bottom Nav ===== */
+    .bottom-nav {
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: calc(100% - 40px);
+      max-width: 440px;
+      background: var(--white);
+      border: 1px solid var(--gray100);
+      display: flex;
+      z-index: 200;
+      height: var(--bottom-nav);
+      border-radius: 24px;
+      box-shadow: var(--shadow-lg);
+      margin-bottom: env(safe-area-inset-bottom, 0px);
+    }
+
+    .nav-item {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 2px;
+      padding: 8px 0;
+      cursor: pointer;
+      border: none;
+      background: none;
+      color: var(--gray400);
+      font-size: 10px;
+      font-weight: 600;
+      transition: all .15s;
+    }
+
+    .nav-item.active {
+      color: var(--gray900);
+    }
+
+    .nav-item svg {
+      width: 22px;
+      height: 22px;
+    }
+
+    /* ===== Pages ===== */
+    .page {
+      display: none;
+    }
+
+    .page.active {
+      display: block;
+    }
+
+    /* ===== Header ===== */
+    .page-header {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: var(--bg);
+      padding: 56px 20px 12px;
+    }
+
+    .page-header h1 {
+      font-size: 22px;
+      font-weight: 800;
+      letter-spacing: -.3px;
+    }
+
+    .page-header .sub {
+      font-size: 13px;
+      color: var(--gray500);
+      margin-top: 4px;
+      font-weight: 500;
+    }
+
+    /* ===== Timeline ===== */
+    .timeline {
+      padding: 0 20px 20px;
+    }
+
+    .day-item {
+      background: var(--white);
+      border-radius: var(--radius);
+      padding: 16px 18px;
+      margin-bottom: 10px;
+      transition: all .15s var(--transition);
+      box-shadow: var(--shadow);
+      position: relative;
+    }
+
+    .day-item .day-top-area {
+      cursor: pointer;
+    }
+
+    .day-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .day-date {
+      font-size: 17px;
+      font-weight: 700;
+      letter-spacing: -.2px;
+    }
+
+    .city-badge {
+      font-size: 11px;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 999px;
+    }
+
+    .city-badge.nice {
+      background: #e0f2fe;
+      color: #0369a1;
+    }
+
+    .city-badge.paris {
+      background: #fce7f3;
+      color: #be185d;
+    }
+
+    .city-badge.travel {
+      background: #dcfce7;
+      color: #15803d;
+    }
+
+    .day-meta {
+      margin-top: 6px;
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+
+    .day-hotel {
+      font-size: 12px;
+      color: var(--gray500);
+      font-weight: 500;
+    }
+
+    .day-memo {
+      font-size: 12px;
+      color: var(--orange);
+      font-weight: 600;
+    }
+
+    .day-pills {
+      margin-top: 10px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .pill {
+      font-size: 11px;
+      font-weight: 600;
+      padding: 4px 10px;
+      border-radius: 999px;
+    }
+
+    .pill.museum {
+      background: var(--blue-bg);
+      color: var(--blue);
+    }
+
+    .pill.food {
+      background: var(--orange-bg);
+      color: #b45309;
+    }
+
+    .pill.tour {
+      background: var(--green-bg);
+      color: var(--green);
+    }
+
+    .pill.spot {
+      background: var(--teal-bg);
+      color: var(--teal);
+    }
+
+    .day-empty {
+      font-size: 12px;
+      color: var(--gray300);
+      margin-top: 8px;
+    }
+
+    /* ===== Content Page - Category Tabs ===== */
+    .cat-tabs {
+      display: flex;
+      gap: 6px;
+      padding: 0 20px 10px;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .cat-tabs::-webkit-scrollbar {
+      display: none;
+    }
+
+    .cat-tab {
+      flex-shrink: 0;
+      padding: 8px 16px;
+      border-radius: 999px;
+      border: none;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      background: var(--gray100);
+      color: var(--gray600);
+      transition: all .15s;
+    }
+
+    .cat-tab.active {
+      background: var(--gray900);
+      color: #fff;
+    }
+
+    /* ===== Content Page - City Toggle ===== */
+    .city-toggle {
+      display: flex;
+      margin: 0 20px 14px;
+      background: var(--gray100);
+      border-radius: var(--radius-sm);
+      padding: 3px;
+      position: relative;
+    }
+
+    .city-toggle-btn {
+      flex: 1;
+      padding: 8px;
+      border: none;
+      background: none;
+      border-radius: 10px;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      color: var(--gray500);
+      transition: all .2s;
+      z-index: 1;
+      position: relative;
+    }
+
+    .city-toggle-btn.active {
+      color: var(--gray900);
+      background: var(--white);
+      box-shadow: 0 1px 4px rgba(0, 0, 0, .08);
+    }
+
+    /* ===== Content Page - Sub Filter ===== */
+    .sub-filter {
+      display: flex;
+      gap: 6px;
+      padding: 0 20px 12px;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .sub-filter::-webkit-scrollbar {
+      display: none;
+    }
+
+    .sf-btn {
+      flex-shrink: 0;
+      padding: 6px 12px;
+      border-radius: 999px;
+      border: 1.5px solid var(--gray200);
+      background: var(--white);
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--gray600);
+      cursor: pointer;
+      transition: all .15s;
+      white-space: nowrap;
+    }
+
+    .sf-btn.active {
+      background: var(--gray900);
+      color: #fff;
+      border-color: var(--gray900);
+    }
+
+    /* ===== Cards ===== */
+    .card-list {
+      padding: 0 20px 20px;
+    }
+
+    .ccard {
+      background: var(--white);
+      border-radius: var(--radius-sm);
+      padding: 16px;
+      margin-bottom: 10px;
+      box-shadow: var(--shadow);
+      cursor: pointer;
+      transition: all .15s;
+      position: relative;
+    }
+
+    .ccard:active {
+      transform: scale(.98);
+      background: var(--gray50);
+    }
+
+    .ccard-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 8px;
+    }
+
+    .ccard-name {
+      font-size: 15px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .ccard-desc {
+      font-size: 12px;
+      color: var(--gray500);
+      margin-top: 4px;
+      line-height: 1.4;
+    }
+
+    .ccard-badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px;
+      margin-top: 8px;
+    }
+
+    .ccard-link {
+      font-size: 11px;
+      color: var(--blue);
+      font-weight: 600;
+      margin-top: 8px;
+      display: inline-flex;
+      align-items: center;
+      gap: 3px;
+    }
+
+    .ccard-link svg {
+      width: 12px;
+      height: 12px;
+    }
+
+    .sm {
+      display: inline-flex;
+      padding: 3px 8px;
+      border-radius: 5px;
+      font-size: 10px;
+      font-weight: 600;
+    }
+
+    .sm.blue {
+      background: var(--blue-bg);
+      color: var(--blue);
+    }
+
+    .sm.orange {
+      background: var(--orange-bg);
+      color: #b45309;
+    }
+
+    .sm.green {
+      background: var(--green-bg);
+      color: var(--green);
+    }
+
+    .sm.gray {
+      background: var(--gray100);
+      color: var(--gray600);
+    }
+
+    .sm.red {
+      background: var(--red-bg);
+      color: var(--red);
+    }
+
+    .sm.free {
+      background: #dcfce7;
+      color: #15803d;
+      font-weight: 700;
+    }
+
+    .sm.pink {
+      background: var(--pink-bg);
+      color: var(--pink);
+    }
+
+    .sm.purple {
+      background: var(--purple-bg);
+      color: var(--purple);
+    }
+
+    .sm.teal {
+      background: var(--teal-bg);
+      color: var(--teal);
+    }
+
+    /* ===== Status Chip (food) ===== */
+    .st-chip {
+      padding: 6px 12px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 700;
+      border: none;
+      cursor: pointer;
+      transition: all .15s;
+      flex-shrink: 0;
+    }
+
+    .st-chip[data-s="none"] {
+      background: var(--gray100);
+      color: var(--gray600);
+    }
+
+    .st-chip[data-s="eaten"] {
+      background: #dcfce7;
+      color: #15803d;
+    }
+
+    .st-chip[data-s="pass"] {
+      background: var(--red-bg);
+      color: var(--red);
+      text-decoration: line-through;
+    }
+
+    /* ===== Info Box ===== */
+    .info-box {
+      margin: 0 20px 16px;
+      padding: 14px 16px;
+      border-radius: var(--radius-sm);
+      font-size: 13px;
+      line-height: 1.6;
+      color: var(--gray700);
+    }
+
+    .info-box.blue {
+      background: var(--blue-bg);
+      color: #1d4ed8;
+    }
+
+    .info-box.orange {
+      background: var(--orange-bg);
+      color: #92400e;
+    }
+
+    .info-box.green {
+      background: var(--green-bg);
+      color: #065f46;
+    }
+
+    .info-box b {
+      font-weight: 700;
+    }
+
+    .info-box a {
+      color: var(--blue);
+      text-decoration: underline;
+    }
+
+    /* ===== Bottom Sheet ===== */
+    .overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, .4);
+      z-index: 300;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity .3s, visibility .3s;
+    }
+
+    .overlay.show {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .sheet {
+      position: fixed;
+      left: 50%;
+      transform: translateX(-50%) translateY(100%);
+      width: 100%;
+      max-width: 480px;
+      bottom: 0;
+      z-index: 301;
+      background: var(--white);
+      border-radius: 20px 20px 0 0;
+      transition: transform .35s var(--transition);
+      max-height: 92vh;
+      display: flex;
+      flex-direction: column;
+      padding-bottom: env(safe-area-inset-bottom, 0px);
+    }
+
+    .sheet.show {
+      transform: translateX(-50%) translateY(0);
+    }
+
+    .sheet-handle {
+      width: 36px;
+      height: 4px;
+      background: var(--gray200);
+      border-radius: 2px;
+      margin: 10px auto 0;
+      flex-shrink: 0;
+    }
+
+    .sheet-header {
+      padding: 16px 20px 12px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid var(--gray100);
+      flex-shrink: 0;
+    }
+
+    .sheet-title {
+      font-size: 17px;
+      font-weight: 700;
+    }
+
+    .sheet-close {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: var(--gray100);
+      border: none;
+      cursor: pointer;
+      font-size: 18px;
+      color: var(--gray600);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .sheet-body {
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+      flex: 1;
+      padding: 12px 20px 20px;
+    }
+
+    /* ===== Day Detail ===== */
+    .si {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 16px;
+      background: var(--gray50);
+      border-radius: var(--radius-sm);
+      margin-bottom: 8px;
+    }
+
+    .si-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex: 1;
+      min-width: 0;
+    }
+
+    .si-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    .si-dot.museum {
+      background: var(--blue);
+    }
+
+    .si-dot.food {
+      background: var(--orange);
+    }
+
+    .si-dot.tour {
+      background: var(--green);
+    }
+
+    .si-dot.spot {
+      background: var(--teal);
+    }
+
+    .si-dot.custom {
+      background: var(--purple);
+    }
+
+    .si-name {
+      font-size: 14px;
+      font-weight: 600;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .si-sub {
+      font-size: 12px;
+      color: var(--gray500);
+      margin-top: 1px;
+    }
+
+    .si-rm {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      border: none;
+      background: var(--red-bg);
+      color: var(--red);
+      cursor: pointer;
+      font-size: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .add-btn {
+      width: 100%;
+      padding: 14px;
+      border-radius: var(--radius-sm);
+      border: 1.5px dashed var(--gray200);
+      background: none;
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--blue);
+      cursor: pointer;
+      transition: all .15s;
+      margin-top: 12px;
+    }
+
+    .add-btn:hover {
+      border-color: var(--blue);
+      background: var(--blue-light);
+    }
+
+    /* ===== Add Sheet ===== */
+    .add-tabs {
+      display: flex;
+      gap: 6px;
+      margin-bottom: 14px;
+      position: sticky;
+      top: 0;
+      background: var(--white);
+      padding: 4px 0 10px;
+      z-index: 10;
+    }
+
+    .add-tab {
+      padding: 8px 16px;
+      border-radius: 999px;
+      border: none;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      background: var(--gray100);
+      color: var(--gray600);
+      transition: all .15s;
+    }
+
+    .add-tab.active {
+      background: var(--gray900);
+      color: #fff;
+    }
+
+    .add-sec {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--gray400);
+      padding: 12px 0 8px;
+      text-transform: uppercase;
+      letter-spacing: .5px;
+    }
+
+    .add-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 0;
+      border-bottom: 1px solid var(--gray100);
+    }
+
+    .add-row:last-child {
+      border-bottom: none;
+    }
+
+    .ar-left {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .ar-name {
+      font-size: 14px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      flex-wrap: wrap;
+    }
+
+    .ar-desc {
+      font-size: 11px;
+      color: var(--gray500);
+      margin-top: 2px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .ar-meta {
+      display: flex;
+      gap: 4px;
+      margin-top: 5px;
+      flex-wrap: wrap;
+    }
+
+    .ar-btn {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      border: none;
+      background: var(--blue);
+      color: #fff;
+      font-size: 20px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      margin-left: 12px;
+      transition: all .1s;
+    }
+
+    .ar-btn:active {
+      transform: scale(.9);
+    }
+
+    .ar-btn.done {
+      background: var(--gray200);
+      color: var(--gray500);
+    }
+
+    /* ===== Checklist ===== */
+    .chk-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--gray700);
+      padding: 16px 20px 8px;
+    }
+
+    .chk-list {
+      padding: 0 20px;
+    }
+
+    .chk {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 14px 0;
+      border-bottom: 1px solid var(--gray100);
+      cursor: pointer;
+    }
+
+    .chk:last-child {
+      border-bottom: none;
+    }
+
+    .chk-box {
+      width: 22px;
+      height: 22px;
+      border-radius: 7px;
+      border: 2px solid var(--gray300);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      transition: all .15s;
+      font-size: 13px;
+      color: transparent;
+    }
+
+    .chk.done .chk-box {
+      background: var(--blue);
+      border-color: var(--blue);
+      color: #fff;
+    }
+
+    .chk.done .chk-text {
+      color: var(--gray400);
+      text-decoration: line-through;
+    }
+
+    .chk-text {
+      font-size: 14px;
+      font-weight: 500;
+    }
+
+    .chk-memo {
+      font-size: 12px;
+      color: var(--gray400);
+      margin-top: 1px;
+    }
+
+    /* ===== Tips ===== */
+    .tip-sec {
+      padding: 0 20px;
+      margin-bottom: 20px;
+    }
+
+    .tip-title {
+      font-size: 15px;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+
+    .tip-c {
+      background: var(--white);
+      border-radius: var(--radius-sm);
+      padding: 12px 14px;
+      margin-bottom: 8px;
+      font-size: 13px;
+      line-height: 1.6;
+      color: var(--gray700);
+      box-shadow: var(--shadow);
+    }
+
+    /* ===== Toast ===== */
+    .toast {
+      position: fixed;
+      bottom: calc(var(--bottom-nav) + 16px + env(safe-area-inset-bottom, 0px));
+      left: 50%;
+      transform: translateX(-50%) translateY(20px);
+      background: var(--gray900);
+      color: #fff;
+      padding: 12px 24px;
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 600;
+      z-index: 400;
+      opacity: 0;
+      transition: all .3s var(--transition);
+      pointer-events: none;
+      white-space: nowrap;
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    .empty {
+      text-align: center;
+      padding: 40px 20px;
+      color: var(--gray400);
+      font-size: 13px;
+    }
+
+    /* ===== Day Action Buttons ===== */
+    .day-actions {
+      display: flex;
+      gap: 8px;
+      margin-top: 12px;
+    }
+
+    .day-action-btn {
+      flex: 1;
+      padding: 10px;
+      border-radius: var(--radius-xs);
+      border: none;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all .15s;
+    }
+
+    .day-action-btn.add {
+      background: var(--blue-bg);
+      color: var(--blue);
+    }
+
+    .day-action-btn.add:active {
+      background: #d0e4ff;
+    }
+
+    .day-action-btn.course {
+      background: var(--gray900);
+      color: #fff;
+    }
+
+    .day-action-btn.course:active {
+      opacity: .85;
+    }
+
+    .day-action-btn:disabled {
+      background: var(--gray100);
+      color: var(--gray300);
+      cursor: default;
+    }
+
+    /* ===== Course Sheet ===== */
+    .course-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 4px 0;
+    }
+
+    .course-line {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 24px;
+      flex-shrink: 0;
+    }
+
+    .course-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      border: 2.5px solid var(--blue);
+      background: var(--white);
+      flex-shrink: 0;
+      z-index: 1;
+    }
+
+    .course-dot.hotel {
+      border-color: var(--gray400);
+      background: var(--gray400);
+    }
+
+    .course-dot.museum {
+      border-color: var(--blue);
+      background: var(--blue);
+    }
+
+    .course-dot.food {
+      border-color: var(--orange);
+      background: var(--orange);
+    }
+
+    .course-dot.tour {
+      border-color: var(--green);
+      background: var(--green);
+    }
+
+    .course-dot.spot {
+      border-color: var(--teal);
+      background: var(--teal);
+    }
+
+    .course-dot.custom {
+      border-color: var(--purple);
+      background: var(--purple);
+    }
+
+    .course-connector {
+      width: 2px;
+      flex: 1;
+      min-height: 28px;
+      background: var(--gray200);
+    }
+
+    .course-info {
+      flex: 1;
+      padding-bottom: 6px;
+    }
+
+    .course-name {
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .course-meta {
+      font-size: 12px;
+      color: var(--gray500);
+      margin-top: 2px;
+    }
+
+    .course-dir {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--blue);
+      margin: 6px 0 6px 36px;
+      padding: 6px 12px;
+      background: var(--blue-bg);
+      border-radius: 999px;
+      cursor: pointer;
+      text-decoration: none;
+      transition: background .15s;
+    }
+
+    .course-dir:active {
+      background: #d0e4ff;
+    }
+
+    .course-summary {
+      margin-top: 16px;
+      padding: 14px 16px;
+      background: var(--gray50);
+      border-radius: var(--radius-sm);
+      font-size: 13px;
+      line-height: 1.7;
+    }
+
+    .course-summary b {
+      font-weight: 700;
+    }
+
+    /* ===== Transit Card ===== */
+    .transit-card {
+      background: var(--green-bg);
+      border-radius: var(--radius-sm);
+      padding: 16px;
+      margin-bottom: 16px;
+    }
+
+    .transit-title {
+      font-size: 15px;
+      font-weight: 700;
+      margin-bottom: 12px;
+      color: #065f46;
+    }
+
+    .transit-opt {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 0;
+      border-bottom: 1px solid rgba(0, 0, 0, .06);
+    }
+
+    .transit-opt:last-child {
+      border-bottom: none;
+    }
+
+    .transit-name {
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    .transit-desc {
+      font-size: 11px;
+      color: var(--gray600);
+      margin-top: 1px;
+    }
+
+    .transit-price {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--green);
+      flex-shrink: 0;
+    }
+
+    .transit-book {
+      display: block;
+      text-align: center;
+      padding: 12px;
+      background: var(--green);
+      color: #fff;
+      border-radius: var(--radius-xs);
+      font-size: 13px;
+      font-weight: 700;
+      margin-top: 12px;
+      text-decoration: none;
+      transition: opacity .15s;
+    }
+
+    .transit-book:active {
+      opacity: .85;
+    }
+
+    /* ===== Card Image ===== */
+    .ccard-row {
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+    }
+
+    .ccard-thumb {
+      width: 56px;
+      height: 56px;
+      border-radius: var(--radius-xs);
+      object-fit: cover;
+      flex-shrink: 0;
+      background: var(--gray100);
+    }
+
+    .ccard-emoji {
+      width: 56px;
+      height: 56px;
+      border-radius: var(--radius-xs);
+      background: var(--gray100);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      flex-shrink: 0;
+    }
+
+    .ccard-body {
+      flex: 1;
+      min-width: 0;
+    }
+
+    /* ===== Custom Input ===== */
+    .custom-form {
+      margin-top: 12px;
+      padding: 14px;
+      background: var(--gray50);
+      border-radius: var(--radius-sm);
+    }
+
+    .custom-form label {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--gray600);
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    .custom-form input,
+    .custom-form select {
+      width: 100%;
+      padding: 10px 12px;
+      border: 1.5px solid var(--gray200);
+      border-radius: var(--radius-xs);
+      font-size: 14px;
+      font-family: inherit;
+      margin-bottom: 10px;
+      background: var(--white);
+    }
+
+    .custom-form input:focus,
+    .custom-form select:focus {
+      outline: none;
+      border-color: var(--blue);
+    }
+
+    .custom-submit {
+      width: 100%;
+      padding: 12px;
+      border: none;
+      border-radius: var(--radius-xs);
+      background: var(--purple);
+      color: #fff;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      font-family: inherit;
+    }
+
+    .custom-submit:active {
+      opacity: .85;
+    }
+
+    .custom-toggle {
+      width: 100%;
+      padding: 12px;
+      border-radius: var(--radius-sm);
+      border: 1.5px dashed var(--purple);
+      background: none;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--purple);
+      cursor: pointer;
+      margin-top: 8px;
+      font-family: inherit;
+    }
+
+    @media(min-width:600px) {
+      body {
+        max-width: 480px;
+        margin: 40px auto;
+        box-shadow: 0 0 40px rgba(0, 0, 0, .06);
+        border-radius: 32px;
+      }
+
+      .bottom-nav {
+        max-width: 440px;
+        left: 50%;
+        transform: translateX(-50%);
+        bottom: 40px;
+      }
+
+      .sheet {
+        bottom: 0;
+        border-radius: 32px 32px 0 0;
+      }
+
+      .sheet.show {
+        transform: translateX(-50%) translateY(0);
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- ===== PAGE: 일정 ===== -->
+  <div class="page active" id="pg-schedule">
+    <div class="page-header">
+      <h1>프랑스 여행</h1>
+      <div class="sub">엄마와 둘이 · 니스+파리 · 3/30~4/9</div>
+    </div>
+    <div class="timeline" id="timeline"></div>
+  </div>
+
+  <!-- ===== PAGE: 컨텐츠 ===== -->
+  <div class="page" id="pg-content">
+    <div class="page-header">
+      <h1>컨텐츠</h1>
+      <div class="sub">미술관 · 맛집 · 투어 · 관광지</div>
+    </div>
+    <div class="cat-tabs" id="catTabs"></div>
+    <div class="city-toggle" id="cityToggle"></div>
+    <div id="contentInfoBox"></div>
+    <div class="sub-filter" id="subFilter"></div>
+    <div class="card-list" id="contentList"></div>
+  </div>
+
+  <!-- ===== PAGE: 준비물 ===== -->
+  <div class="page" id="pg-check">
+    <div class="page-header">
+      <h1>준비물</h1>
+      <div class="sub">체크해가며 준비하세요</div>
+    </div>
+    <div id="checkWrap"></div>
+  </div>
+
+  <!-- ===== PAGE: 꿀팁 ===== -->
+  <div class="page" id="pg-tips">
+    <div class="page-header">
+      <h1>꿀팁</h1>
+      <div class="sub">알면 돈·시간 아끼는 정보</div>
+    </div>
+    <div id="tipsWrap"></div>
+  </div>
+
+  <!-- ===== Bottom Nav ===== -->
+  <nav class="bottom-nav">
+    <button class="nav-item active" data-p="schedule"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+        stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="3" y="4" width="18" height="18" rx="2" />
+        <line x1="16" y1="2" x2="16" y2="6" />
+        <line x1="8" y1="2" x2="8" y2="6" />
+        <line x1="3" y1="10" x2="21" y2="10" />
+      </svg>일정</button>
+    <button class="nav-item" data-p="content"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+        stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <polygon points="12 2 2 7 12 12 22 7 12 2" />
+        <polyline points="2 17 12 22 22 17" />
+        <polyline points="2 12 12 17 22 12" />
+      </svg>컨텐츠</button>
+    <button class="nav-item" data-p="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+        stroke-linecap="round" stroke-linejoin="round">
+        <path d="M22 11.08V12a10 10 0 11-5.93-9.14" />
+        <polyline points="22 4 12 14.01 9 11.01" />
+      </svg>준비물</button>
+    <button class="nav-item" data-p="tips"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+        stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="10" />
+        <line x1="12" y1="16" x2="12" y2="12" />
+        <line x1="12" y1="8" x2="12.01" y2="8" />
+      </svg>꿀팁</button>
+  </nav>
+
+  <!-- ===== Overlay + Sheets ===== -->
+  <div class="overlay" id="overlay"></div>
+  <div class="sheet" id="daySheet">
+    <div class="sheet-handle"></div>
+    <div class="sheet-header"><span class="sheet-title" id="dsTitle"></span><button class="sheet-close"
+        onclick="closeSheet()">&times;</button></div>
+    <div class="sheet-body" id="dsBody"></div>
+  </div>
+  <div class="sheet" id="addSheet">
+    <div class="sheet-handle"></div>
+    <div class="sheet-header"><span class="sheet-title">일정에 추가</span><button class="sheet-close"
+        onclick="closeAdd()">&times;</button></div>
+    <div class="sheet-body" id="asBody"></div>
+  </div>
+  <div class="sheet" id="courseSheet">
+    <div class="sheet-handle"></div>
+    <div class="sheet-header"><span class="sheet-title" id="csTitle"></span><button class="sheet-close"
+        onclick="closeCourse()">&times;</button></div>
+    <div class="sheet-body" id="csBody"></div>
+  </div>
+  <div class="toast" id="toast"></div>
+
+  <script>
+    // ========== DATA ==========
+    const DAYS = [
+      { date: '3/30', day: '월', city: '니스', ck: 'nice', memo: '이동일 (도착 21:30)', hotel: 'Westminster Hotel & Spa', hgmap: 'Westminster Hotel Spa Nice', hz: 'nice-promenade' },
+      { date: '3/31', day: '화', city: '니스', ck: 'nice', memo: '마티스/샤갈/팔레라스카리 휴관', hotel: 'Westminster Hotel & Spa', hgmap: 'Westminster Hotel Spa Nice', hz: 'nice-promenade' },
+      { date: '4/1', day: '수', city: '니스', ck: 'nice', memo: '전체 개관', hotel: 'Westminster Hotel & Spa', hgmap: 'Westminster Hotel Spa Nice', hz: 'nice-promenade' },
+      { date: '4/2', day: '목', city: '니스', ck: 'nice', memo: '전체 개관, Negresco 체크인', hotel: 'Hotel Negresco', hgmap: 'Hotel Negresco Nice', hz: 'nice-promenade' },
+      { date: '4/3', day: '금', city: '파리 이동', ck: 'travel', memo: '루브르 야간개장(~21:45)', hotel: 'Dandy Hotel', hgmap: 'Dandy Hotel Paris', transit: 'nice→paris', hz: 'paris-opera' },
+      { date: '4/4', day: '토', city: '파리', ck: 'paris', memo: '루브르 18시~ 무료 (첫째 토)', hotel: 'Dandy Hotel', hgmap: 'Dandy Hotel Paris', hz: 'paris-opera' },
+      { date: '4/5', day: '일', city: '파리', ck: 'paris', memo: '오르세+오랑주리+피카소 무료, 부활절', hotel: 'Dandy Hotel', hgmap: 'Dandy Hotel Paris', hz: 'paris-opera' },
+      { date: '4/6', day: '월', city: '파리', ck: 'paris', memo: '오르세/로댕/프티팔레/피카소 휴관', hotel: 'Novotel Les Halles', hgmap: 'Novotel Paris Les Halles', hz: 'paris-louvre' },
+      { date: '4/7', day: '화', city: '파리', ck: 'paris', memo: '루브르/오랑주리 휴관', hotel: 'Novotel Les Halles', hgmap: 'Novotel Paris Les Halles', hz: 'paris-louvre' },
+      { date: '4/8', day: '수', city: '파리', ck: 'paris', memo: '전체 개관, 루브르 야간개장', hotel: 'Novotel Les Halles', hgmap: 'Novotel Paris Les Halles', hz: 'paris-louvre' },
+      { date: '4/9', day: '목', city: '파리 출발', ck: 'travel', memo: '17시까지 공항 출발', hotel: '체크아웃 12:00', hgmap: 'Novotel Paris Les Halles', hz: 'paris-louvre' },
+    ];
+
+    const MUSEUMS = [
+      { id: 'N1', name: '마티스 미술관', desc: '마티스 최대 컬렉션, 종이 오리기 작품', price: '~10€', dur: '1~1.5h', closed: '화', city: 'nice', free: false, gmap: 'Musée Matisse Nice', zone: 'nice-cimiez' },
+      { id: 'N2', name: '샤갈 미술관', desc: '성서 시리즈 17점, 스테인드글라스', price: '~10€', dur: '1~1.5h', closed: '화', city: 'nice', free: false, gmap: 'Musée National Marc Chagall Nice', zone: 'nice-cimiez' },
+      { id: 'N3', name: 'MAMAC', desc: '이브 클랭, 니키 드 생팔, 루프탑 전망', price: '무료', dur: '1~2h', closed: '월', city: 'nice', free: true, gmap: 'MAMAC Nice', zone: 'nice-center' },
+      { id: 'N4', name: '보자르 미술관', desc: '모네, 로댕, 뒤피 (17~20세기)', price: '~10€', dur: '1h', closed: '월', city: 'nice', free: false, gmap: 'Musée des Beaux-Arts Nice', zone: 'nice-center' },
+      { id: 'N5', name: '팔레 라스카리', desc: '17세기 바로크 궁전, 악기 컬렉션', price: '~10€', dur: '45min', closed: '화', city: 'nice', free: false, gmap: 'Palais Lascaris Nice', zone: 'nice-old' },
+      { id: 'N6', name: 'Fondation Maeght', desc: '유럽 최고 현대미술, 미로/자코메티 (근교)', price: '~18€', dur: '2h', closed: '없음', city: 'nice', free: false, gmap: 'Fondation Maeght Saint-Paul-de-Vence', zone: 'nice-suburb' },
+      { id: 'P1', name: '루브르', desc: '모나리자, 승리의 여신, 밀로의 비너스', price: '~22€', dur: '4~6h', closed: '화', city: 'paris', free: false, gmap: 'Musée du Louvre Paris', zone: 'paris-louvre' },
+      { id: 'P2', name: '오르세', desc: '인상파 천국 (모네, 르누아르, 고흐)', price: '~16€', dur: '2~3h', closed: '월', city: 'paris', free: false, gmap: 'Musée d\'Orsay Paris', zone: 'paris-stgermain' },
+      { id: 'P3', name: '오랑주리', desc: '모네 수련 (거대한 8연작)', price: '~12.50€', dur: '1h', closed: '화', city: 'paris', free: false, gmap: 'Musée de l\'Orangerie Paris', zone: 'paris-louvre' },
+      { id: 'P4', name: '로댕 미술관', desc: '생각하는 사람, 지옥의 문 + 봄 정원', price: '~13€', dur: '1.5h', closed: '월', city: 'paris', free: false, gmap: 'Musée Rodin Paris', zone: 'paris-eiffel' },
+      { id: 'P5', name: '피카소 미술관', desc: '피카소 5,000점+ (마레 지구)', price: '~14€', dur: '1.5h', closed: '월', city: 'paris', free: false, gmap: 'Musée Picasso Paris', zone: 'paris-marais' },
+      { id: 'P6', name: '프티 팔레', desc: '모네, 쿠르베 등 (상설전 무료!)', price: '무료', dur: '1~2h', closed: '월', city: 'paris', free: true, gmap: 'Petit Palais Paris', zone: 'paris-eiffel' },
+      { id: 'P7', name: '생트샤펠', desc: '파리 최고 스테인드글라스', price: '~11.50€', dur: '30min', closed: '없음', city: 'paris', free: false, gmap: 'Sainte-Chapelle Paris', zone: 'paris-louvre' },
+      { id: 'P8', name: '자크마르앙드레', desc: '이탈리아 르네상스, 귀족 저택', price: '~16€', dur: '1.5h', closed: '없음', city: 'paris', free: false, gmap: 'Musée Jacquemart-André Paris', zone: 'paris-opera' },
+    ];
+
+    const FOODS = [
+      { id: 'NF1', name: 'Chez Pipo', desc: '소카 니스 1등, 1923년~', price: '€', rsv: '불필요', city: 'nice', cat: '캐주얼', note: '월요일 휴무', gmap: 'Chez Pipo Nice', zone: 'nice-old' },
+      { id: 'NF2', name: 'La Merenda', desc: '전통 니스와즈, 전 미슐랭 셰프', price: '€€', rsv: '불가(줄서기)', city: 'nice', cat: '비스트로', note: '현금만, 주말 휴무', gmap: 'La Merenda Nice', zone: 'nice-old' },
+      { id: 'NF3', name: 'Peixes', desc: '해산물 최상급, 시장 직송', price: '€€€', rsv: '필수', city: 'nice', cat: '비스트로', note: '3~7일 전 예약', gmap: 'Peixes Nice', zone: 'nice-old' },
+      { id: 'NF4', name: 'Olive et Artichaut', desc: '모던 프렌치, 런치 20~30€', price: '€€', rsv: '추천', city: 'nice', cat: '비스트로', gmap: 'Olive et Artichaut Nice', zone: 'nice-old' },
+      { id: 'NF5', name: 'Cafe de Turin', desc: '해산물 플래터, 1908년~', price: '€€€', rsv: '불필요', city: 'nice', cat: '캐주얼', gmap: 'Café de Turin Nice', zone: 'nice-old' },
+      { id: 'NF6', name: 'Chez Rene Socca', desc: 'Chez Pipo 대안, 넓고 편함', price: '€', rsv: '불필요', city: 'nice', cat: '캐주얼', gmap: 'Chez René Socca Nice', zone: 'nice-old' },
+      { id: 'NF7', name: 'Comptoir du Marche', desc: 'Cours Saleya 시장 옆', price: '€€', rsv: '불필요', city: 'nice', cat: '비스트로', gmap: 'Comptoir du Marché Nice', zone: 'nice-old' },
+      { id: 'NB1', name: "Emilie's Cookies", desc: '아사이볼, 아보카도토스트', price: '€', rsv: '불필요', city: 'nice', cat: '아침', gmap: "Emilie's Cookies Nice", zone: 'nice-center' },
+      { id: 'NB2', name: 'Cafe Marche', desc: 'Liberation 시장 근처, 로컬', price: '€', rsv: '불필요', city: 'nice', cat: '아침', gmap: 'Café du Marché Nice Liberation', zone: 'nice-center' },
+      { id: 'M1', name: 'Accents Table Bourse', desc: '일본 셰프, 한국인 입맛 최적', price: '런치~52€', rsv: '필수', city: 'paris', cat: '미슐랭', note: '1스타', gmap: 'Accents Table Bourse Paris', zone: 'paris-louvre' },
+      { id: 'M2', name: 'Virtus', desc: '1스타 최저가급, 만족도 높음', price: '런치~39€', rsv: '필수', city: 'paris', cat: '미슐랭', note: '1스타', gmap: 'Virtus Restaurant Paris', zone: 'paris-latin' },
+      { id: 'M3', name: 'Le Clos Y', desc: '한국계 셰프, 한국인 후기 다수', price: '런치~40~55€', rsv: '필수', city: 'paris', cat: '미슐랭', note: '1스타', gmap: 'Le Clos Y Paris', zone: 'paris-eiffel' },
+      { id: 'M4', name: 'Auguste', desc: '가성비 최고 미슐랭', price: '런치~39€', rsv: '필수', city: 'paris', cat: '미슐랭', note: '1스타', gmap: 'Auguste Restaurant Paris', zone: 'paris-eiffel' },
+      { id: 'M5', name: 'Auberge Nicolas Flamel', desc: '파리 最古 건물에서 식사', price: '런치~42€', rsv: '필수', city: 'paris', cat: '미슐랭', note: '1스타', gmap: 'Auberge Nicolas Flamel Paris', zone: 'paris-marais' },
+      { id: 'M6', name: "L'Oiseau Blanc", desc: '에펠탑 뷰 루프탑, 서프라이즈 최적', price: '런치~65~85€', rsv: '필수', city: 'paris', cat: '미슐랭', note: '2스타', gmap: "L'Oiseau Blanc Paris", zone: 'paris-eiffel' },
+      { id: 'M7', name: 'Sylvestre', desc: '25석 소규모, 프라이빗', price: '런치~80~120€', rsv: '필수', city: 'paris', cat: '미슐랭', note: '2스타', gmap: 'Sylvestre Restaurant Paris', zone: 'paris-eiffel' },
+      { id: 'M8', name: "La Table de l'Espadon", desc: '리츠 파리, 클래식 감동', price: '런치~95~140€', rsv: '필수', city: 'paris', cat: '미슐랭', note: '2스타', gmap: "La Table de l'Espadon Ritz Paris", zone: 'paris-louvre' },
+      { id: 'PF1', name: 'Le Bouillon Chartier', desc: '1896년 벨에포크, 전설', price: '15~25€', rsv: '불가(줄서기)', city: 'paris', cat: '부이용', gmap: 'Le Bouillon Chartier Paris', zone: 'paris-opera' },
+      { id: 'PF2', name: 'Bouillon Pigalle', desc: 'Chartier 모던 버전', price: '15~25€', rsv: '불필요', city: 'paris', cat: '부이용', gmap: 'Bouillon Pigalle Paris', zone: 'paris-montmartre' },
+      { id: 'PF3', name: 'Bouillon Julien', desc: '1906년 아르누보, 가장 예쁨', price: '15~25€', rsv: '불필요', city: 'paris', cat: '부이용', gmap: 'Bouillon Julien Paris', zone: 'paris-opera' },
+      { id: 'PF4', name: 'Chez Janou', desc: '초콜릿 무스 무한리필!', price: '25~50€', rsv: '필수', city: 'paris', cat: '비스트로', gmap: 'Chez Janou Paris', zone: 'paris-marais' },
+      { id: 'PF5', name: 'Bistrot Paul Bert', desc: 'Grand Marnier 수플레', price: '25~50€', rsv: '필수', city: 'paris', cat: '비스트로', gmap: 'Bistrot Paul Bert Paris', zone: 'paris-marais' },
+      { id: 'PF6', name: "Le Relais de l'Entrecote", desc: '스테이크 프릿 (메뉴 1개)', price: '25~50€', rsv: '불가(줄서기)', city: 'paris', cat: '비스트로', gmap: "Le Relais de l'Entrecôte Paris", zone: 'paris-stgermain' },
+      { id: 'PF7', name: 'Clover Grill', desc: '미슐랭 출신, 숯불 그릴', price: '25~50€', rsv: '추천', city: 'paris', cat: '비스트로', gmap: 'Clover Grill Paris', zone: 'paris-louvre' },
+      { id: 'PF8', name: 'Pink Mamma', desc: '이탈리안 4층, 인스타 맛집', price: '15~35€', rsv: '필수(앱)', city: 'paris', cat: '캐주얼', gmap: 'Pink Mamma Paris', zone: 'paris-marais' },
+      { id: 'PF9', name: 'Breizh Cafe', desc: '크레페/갈레트 파리 최고', price: '15~35€', rsv: '추천', city: 'paris', cat: '캐주얼', gmap: 'Breizh Café Marais Paris', zone: 'paris-marais' },
+      { id: 'PF10', name: "L'As du Fallafel", desc: '마레 팔라펠, 가성비 최강', price: '15~35€', rsv: '불필요', city: 'paris', cat: '캐주얼', gmap: "L'As du Fallafel Paris", zone: 'paris-marais' },
+      { id: 'PB1', name: 'Du Pain et des Idees', desc: '피스타치오 에스카르고', price: '€', rsv: '불필요', city: 'paris', cat: '아침', note: '주말 휴무', gmap: 'Du Pain et des Idées Paris', zone: 'paris-latin' },
+      { id: 'PB2', name: 'Holybelly', desc: '팬케이크+베이컨, 스페셜티 커피', price: '€€', rsv: '불필요', city: 'paris', cat: '아침', gmap: 'Holybelly Paris', zone: 'paris-latin' },
+      { id: 'PB3', name: 'Le Petit Cler', desc: '타르틴, 키슈, Rue Cler', price: '€', rsv: '불필요', city: 'paris', cat: '아침', gmap: 'Le Petit Cler Paris', zone: 'paris-eiffel' },
+    ];
+
+    const TOURS = [
+      { id: 'NT1', name: '모나코 + 에즈 당일투어', price: '6~10만원', dur: '6~8h', city: 'nice', note: '4월 날씨 최적, 강추', link: 'https://www.myrealtrip.com/offers/68087', zone: 'nice-suburb', gmap: 'Nice' },
+      { id: 'NT2', name: '니스 푸드투어', price: '70~100€', dur: '3~4h', city: 'nice', link: 'https://www.myrealtrip.com/cities?key_name=Nice', zone: 'nice-old', gmap: 'Vieux Nice' },
+      { id: 'NT3', name: '생폴드방스 + Maeght', price: '버스비만', dur: '반나절', city: 'nice', note: '버스 400번', zone: 'nice-suburb', gmap: 'Saint-Paul-de-Vence' },
+      { id: 'NT4', name: '니스 올드타운 워킹투어', price: '20~40€', dur: '2~3h', city: 'nice', link: 'https://www.myrealtrip.com/cities?key_name=Nice', zone: 'nice-old', gmap: 'Vieux Nice' },
+      { id: 'PT1', name: '디저트 투어', price: '65,000원+20€', dur: '3.5h', city: 'paris', note: '평점 4.9/619리뷰', link: 'https://experiences.myrealtrip.com/products/3434368', zone: 'paris-stgermain', gmap: 'Saint-Germain-des-Prés Paris' },
+      { id: 'PT2', name: '샴페인 와이너리', price: '290,000원', dur: '11h', city: 'paris', note: '2인 협의', link: 'https://experiences.myrealtrip.com/products/3410168', zone: 'paris-suburb', gmap: 'Paris' },
+      { id: 'PT3', name: '샴페인 투어 (단체)', price: '150~250€/인', dur: '10~12h', city: 'paris', zone: 'paris-suburb', gmap: 'Paris' },
+      { id: 'PT4', name: '파리 야경 투어', price: '3~6만원', dur: '3~4h', city: 'paris', link: 'https://www.myrealtrip.com/cities?key_name=Paris', zone: 'paris-eiffel', gmap: 'Tour Eiffel Paris' },
+      { id: 'PT5', name: '세느강 크루즈', price: '2~5만원', dur: '1~1.5h', city: 'paris', link: 'https://www.myrealtrip.com/cities?key_name=Paris', zone: 'paris-eiffel', gmap: 'Bateaux Mouches Paris' },
+      { id: 'PT6', name: '베르사유 궁전 투어', price: '5~10만원', dur: '5~7h', city: 'paris', note: '월요일 휴관', link: 'https://www.myrealtrip.com/cities?key_name=Paris', zone: 'paris-suburb', gmap: 'Château de Versailles' },
+      { id: 'PT7', name: '몽마르뜨 워킹 투어', price: '2~4만원', dur: '2~3h', city: 'paris', link: 'https://www.myrealtrip.com/cities?key_name=Paris', zone: 'paris-montmartre', gmap: 'Sacré-Cœur Paris' },
+    ];
+
+    const SPOTS = [
+      // Nice
+      { id: 'NS1', name: '영국인 산책로', desc: '지중해 해변 따라 7km, 니스의 상징', city: 'nice', cat: '산책', gmap: 'Promenade des Anglais Nice', zone: 'nice-promenade' },
+      { id: 'NS2', name: '니스 구시가지 (Vieux Nice)', desc: '좁은 골목, 파스텔 건물, 젤라토·소카 맛집', city: 'nice', cat: '거리', gmap: 'Vieux Nice', zone: 'nice-old' },
+      { id: 'NS3', name: '쿠르 살레야 꽃시장', desc: '화~일 오전 꽃·채소 마르쉐, 월요일은 골동품', city: 'nice', cat: '마켓', gmap: 'Cours Saleya Nice', zone: 'nice-old' },
+      { id: 'NS4', name: '성 언덕 (Colline du Château)', desc: '니스 최고 전망대, 해안+구시가지 파노라마', city: 'nice', cat: '전망', gmap: 'Colline du Château Nice', zone: 'nice-old' },
+      { id: 'NS5', name: '마세나 광장', desc: '니스 중심 광장, 분수+야간 조명 조각상', city: 'nice', cat: '광장', gmap: 'Place Masséna Nice', zone: 'nice-center' },
+      { id: 'NS6', name: '니스 항구 (Port Lympia)', desc: '컬러풀 건물, 산책하며 요트 구경', city: 'nice', cat: '산책', gmap: 'Port Lympia Nice', zone: 'nice-port' },
+      { id: 'NS7', name: 'Liberation 시장', desc: '로컬 재래시장, 트램 Libération역 바로 앞', city: 'nice', cat: '마켓', gmap: 'Marché de la Libération Nice', zone: 'nice-center' },
+      { id: 'NS8', name: '에즈 마을', desc: '해발 400m 독수리 둥지 마을, 절벽 위 중세 마을', city: 'nice', cat: '근교', gmap: 'Èze Village', zone: 'nice-suburb' },
+      { id: 'NS9', name: '모나코 (몬테카를로)', desc: '카지노 광장, 왕궁, F1 코스, 해양박물관', city: 'nice', cat: '근교', gmap: 'Monte-Carlo Monaco', zone: 'nice-suburb' },
+      // Paris
+      { id: 'PS1', name: '에펠탑', desc: '2층 전망대 추천, 야경은 매시 정각 반짝임', city: 'paris', cat: '랜드마크', gmap: 'Tour Eiffel Paris', zone: 'paris-eiffel' },
+      { id: 'PS2', name: '개선문 + 샹젤리제', desc: '옥상 전망대, 샹젤리제 산책+쇼핑', city: 'paris', cat: '랜드마크', gmap: 'Arc de Triomphe Paris', zone: 'paris-eiffel' },
+      { id: 'PS3', name: '노트르담 대성당', desc: '2024년 재개장, 외부 무료, 고딕 건축의 걸작', city: 'paris', cat: '건축', gmap: 'Cathédrale Notre-Dame de Paris', zone: 'paris-latin' },
+      { id: 'PS4', name: '몽마르뜨 + 사크레쾨르', desc: '언덕 위 화이트 성당, 화가 골목, 파리 전망', city: 'paris', cat: '랜드마크', gmap: 'Basilique du Sacré-Cœur Paris', zone: 'paris-montmartre' },
+      { id: 'PS5', name: '마레 지구', desc: '피카소 미술관, 보주 광장, 빈티지샵, 팔라펠', city: 'paris', cat: '거리', gmap: 'Le Marais Paris', zone: 'paris-marais' },
+      { id: 'PS6', name: '뤽상부르 공원', desc: '파리지앵 힐링 스폿, 벤치에서 피크닉', city: 'paris', cat: '공원', gmap: 'Jardin du Luxembourg Paris', zone: 'paris-stgermain' },
+      { id: 'PS7', name: '트로카데로 광장', desc: '에펠탑 정면 포토스폿, 특히 야경', city: 'paris', cat: '전망', gmap: 'Trocadéro Paris', zone: 'paris-eiffel' },
+      { id: 'PS8', name: '생제르맹 데 프레', desc: '카페 문화의 성지, 서점·갤러리 산책', city: 'paris', cat: '거리', gmap: 'Saint-Germain-des-Prés Paris', zone: 'paris-stgermain' },
+      { id: 'PS9', name: '갈르리 라파예트', desc: '화려한 돔 천장, 옥상 에펠탑 뷰 (무료)', city: 'paris', cat: '쇼핑', gmap: 'Galeries Lafayette Haussmann Paris', zone: 'paris-opera' },
+      { id: 'PS10', name: '봉막셰 백화점', desc: '세계 최초 백화점, 식품관 구경 필수', city: 'paris', cat: '쇼핑', gmap: 'Le Bon Marché Paris', zone: 'paris-stgermain' },
+      { id: 'PS11', name: '생마르탱 운하', desc: '아멜리에 촬영지, 다리 위 산책·피크닉', city: 'paris', cat: '산책', gmap: 'Canal Saint-Martin Paris', zone: 'paris-latin' },
+      { id: 'PS12', name: '베르사유 궁전', desc: '거울의 방, 정원, 월요일 휴관', city: 'paris', cat: '근교', gmap: 'Château de Versailles', zone: 'paris-suburb' },
+    ];
+
+    const ZONE_ORDER = {
+      nice: ['nice-cimiez', 'nice-port', 'nice-center', 'nice-old', 'nice-promenade', 'nice-suburb'],
+      paris: ['paris-montmartre', 'paris-opera', 'paris-louvre', 'paris-marais', 'paris-latin', 'paris-stgermain', 'paris-eiffel', 'paris-suburb']
+    };
+    const MAJOR_TRANSIT = {
+      'nice→paris': {
+        label: '니스 → 파리 이동',
+        options: [
+          { icon: '🚄', name: 'TGV (고속열차)', price: '26~190€', dur: '5.5시간', desc: 'SNCF Connect 예약, 좌석 넓음' },
+          { icon: '🚄', name: 'OUIGO (저가 고속)', price: '19€~', dur: '5.5시간', desc: '사전 예약 필수, 수하물 제한' },
+          { icon: '✈️', name: '비행기', price: '34€~', dur: '1.5시간', desc: '공항 이동 약 2시간 추가' }
+        ],
+        bookLink: 'https://www.sncf-connect.com/'
+      }
+    };
+    const TYPE_EMOJI = { museum: '🎨', food: '🍽️', tour: '🚶', spot: '📍', custom: '📌' };
+
+    const SUPPLIES = {
+      essential: [
+        { t: '여권', m: '유효기간 6개월 이상 확인' }, { t: '여권 사본 / 여권 사진 (폰 저장)', m: '분실 대비' },
+        { t: '여행자 보험', m: '신용카드 자동 보험 or 별도 가입' }, { t: '유로 현금', m: '200~300€, La Merenda 현금만!' },
+        { t: '신용카드 2장 이상', m: 'VISA/Master 해외결제 (1장 예비)' }, { t: '유심 or eSIM', m: 'eSIM 추천 (10G ~15,000원)' },
+        { t: '변환 플러그 (C형)', m: '최소 2개 (엄마+본인)' }, { t: '보조배터리', m: '하루종일 돌아다니면 필수' },
+      ],
+      recommend: [
+        { t: '접이식 우산 / 우비', m: '4월 초 파리 비 가능성' }, { t: '걷기 편한 신발', m: '하루 2만보+ 각오' },
+        { t: '얇은 겉옷 / 카디건', m: '4월 초 8~16°C, 일교차 큼' }, { t: '미슐랭용 옷', m: '스마트 캐주얼 (원피스/재킷)' },
+        { t: '에코백 / 보조가방', m: '프랑스 비닐봉투 유료' }, { t: '상비약', m: '소화제, 진통제, 밴드, 멀미약' },
+        { t: '선크림 / 선글라스', m: '니스 지중해 햇살 강함' }, { t: '슬리퍼', m: '호텔/비행기용' }, { t: '목베개 / 안대', m: '장거리 비행 (12시간)' },
+      ]
+    };
+
+    const TIPS = {
+      '💰 돈 절약': [
+        '4/4(토) 루브르 무료 + 4/5(일) 오르세+오랑주리+피카소 무료 → 약 65€ 절약',
+        '미슐랭은 런치! 디너의 50~60% 가격. 와인은 글라스로 (1잔 15~25€)',
+        '부이용 레스토랑: 15~25€로 3코스 프렌치 (Chartier, Pigalle, Julien)',
+        'OUIGO 기차: 니스→파리 19€부터 (일찍 예약할수록 쌈)',
+        '비접촉 신용카드로 파리 지하철 직접 탑승 가능',
+      ],
+      '⏰ 시간 절약': [
+        '루브르 야간개장: 수/금 21:45까지 → 저녁에 가면 인파 적음',
+        '오르세 무료 일요일: 09시 오랑주리부터 → 10시 반 오르세',
+        '마레 동선: 피카소 → L\'As du Fallafel → Breizh Cafe → 쇼핑',
+        '니스 동선: 치미에 언덕(마티스+샤갈) → 시내(MAMAC)',
+      ],
+      '⚠️ 주의사항': [
+        '소매치기 주의: 지하철·관광지 가방 앞으로! 특히 1호선, 몽마르뜨',
+        '일요일 상점 휴무: 대부분 문 닫음 (식당은 영업)',
+        '식사 시간: 점심 12~14시, 저녁 19~22시 (이 외 주문 어려울 수 있음)',
+        '"une carafe d\'eau" 하면 무료 수돗물',
+        'CDG 환승 (3/30): T2E→T2F, 1.5시간 빡빡 → 수하물 스루체크인 확인!',
+        '4/5 부활절: 일부 상점/레스토랑 휴업 가능',
+      ],
+      '🚇 교통': [
+        '니스: 트램+버스 1회 ~1.50€ (74분 유효), 10회 ~10€',
+        '니스: 주요 관광지 대부분 도보, 치미에 언덕은 버스 15/17번',
+        '파리: Navigo Easy 카드 2€ + 1회 2.55€ / 10회 ~19€',
+        '파리: NFC 폰이면 모바일 티켓 가능, 비접촉 신용카드 직접 탑승도 OK',
+        '니스→파리: OUIGO 19€~ / TGV 26~190€ / 비행기 34€~ (SNCF Connect 예약)',
+      ],
+      '💳 결제·패스': [
+        '니스 French Riviera Pass: 48h 40€ (미술관 3곳+ 가면 이득), 샤갈은 별도!',
+        'Paris Museum Pass: 우리 일정에선 안 사는 게 이득 (무료일 활용)',
+        '오르세+오랑주리 콤보 ~18€ (개별 28.50€보다 절약)',
+        '프랑스는 카드 결제 보편화, 소액도 카드 OK (일부 마르쉐만 현금)',
+        '미슐랭 1스타 런치: 39~55€ / 2스타 런치: 65~140€ (4~6주 전 예약)',
+      ],
+      '📱 유용한 앱': [
+        'Google Maps — 맛집/길찾기 만능',
+        'Citymapper — 파리 대중교통 최강',
+        'TheFork — 레스토랑 예약 (할인 있음)',
+        'SNCF Connect — 기차 예약',
+        'Google 번역 — 카메라로 메뉴판 번역',
+        '루브르 공식 앱 — 무료 오디오 가이드',
+      ],
+    };
+
+    const MUSEUM_INFO = {
+      nice: `<b>🎫 제일 싸게 보는 법</b><br>
+• <b>French Riviera Pass 48h (40€)</b>: 마티스+MAMAC+보자르+팔레라스카리 포함 → 3곳 이상이면 이득<br>
+• 샤갈은 국립이라 패스 미포함, 개별 ~10€<br>
+• <b>MAMAC·프티팔레는 항상 무료!</b><br>
+• N1+N2 치미에 언덕 묶기 (버스 15/17번), N3+N4+N5 시내 도보 묶기<br>
+• <a href="https://triple.guide/articles/f5715f4d-843d-4759-b504-a858b86a59a4" target="_blank">니스 패스 상세 비교 →</a>`,
+      paris: `<b>🎫 제일 싸게 보는 법</b><br>
+• <b>4/4(토) 18시~</b> 루브르 무료 (매월 첫째 토 야간)<br>
+• <b>4/5(일) 종일</b> 오르세+오랑주리+피카소 무료 (매월 첫째 일)<br>
+• 프티팔레 상설전 항상 무료<br>
+• 무료일 활용 시 Museum Pass 안 사는 게 이득 (65€+ 절약)<br>
+• 다른 날 오르세+오랑주리 가려면 <b>콤보 티켓 ~18€</b> (개별 28.50€)<br>
+• 루브르는 <b>시간대 예약 필수</b>: <a href="https://www.louvre.fr" target="_blank">louvre.fr</a><br>
+• 루브르 야간개장 수/금 ~21:45 (저녁이 인파 적음)<br>
+• <b>교통</b>: 지하철 Navigo Easy (1회 2.55€) 또는 비접촉 신용카드 탭<br>
+• <b>결제</b>: 미술관 입장권은 공식 사이트 사전 구매가 가장 쌈, 현장 카드 결제 OK`
+    };
+
+    // ========== STATE ==========
+    let S = loadS(); function loadS() { try { const s = JSON.parse(localStorage.getItem('ftp_v3')); if (s) { if (!s.custom) s.custom = []; return s } } catch (e) { } return { sch: {}, food: {}, chk: {}, custom: [] } }
+    function save() { localStorage.setItem('ftp_v3', JSON.stringify(S)); }
+
+    // ========== NAV ==========
+    document.querySelectorAll('.nav-item').forEach(b => {
+      b.addEventListener('click', () => {
+        document.querySelectorAll('.nav-item').forEach(x => x.classList.remove('active'));
+        document.querySelectorAll('.page').forEach(x => x.classList.remove('active'));
+        b.classList.add('active'); document.getElementById('pg-' + b.dataset.p).classList.add('active');
+      });
+    });
+
+    // ========== TOAST ==========
+    let _tt; function toast(m) { const t = document.getElementById('toast'); t.textContent = m; t.classList.add('show'); clearTimeout(_tt); _tt = setTimeout(() => t.classList.remove('show'), 2000); }
+
+    // ========== SHEETS ==========
+    let curDate = null;
+    const ov = document.getElementById('overlay'), ds = document.getElementById('daySheet'), as = document.getElementById('addSheet'), cs = document.getElementById('courseSheet');
+    function openS(s) { ov.classList.add('show'); s.classList.add('show'); document.body.style.overflow = 'hidden'; }
+    function closeSheet() { ov.classList.remove('show'); ds.classList.remove('show'); as.classList.remove('show'); cs.classList.remove('show'); document.body.style.overflow = ''; }
+    function closeAdd() { as.classList.remove('show'); setTimeout(() => openDay(curDate), 80); }
+    function closeCourse() { cs.classList.remove('show'); ov.classList.remove('show'); document.body.style.overflow = ''; }
+    ov.addEventListener('click', closeSheet);
+    function gmap(q) { return 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(q); }
+    function gmapDir(from, to, mode = 'transit') { return 'https://www.google.com/maps/dir/?api=1&origin=' + encodeURIComponent(from) + '&destination=' + encodeURIComponent(to) + '&travelmode=' + mode; }
+
+    // ========== TIMELINE ==========
+    function renderTL() {
+      const el = document.getElementById('timeline'); el.innerHTML = '';
+      DAYS.forEach(d => {
+        const items = S.sch[d.date] || [];
+        const hasItems = items.length > 0;
+        const div = document.createElement('div'); div.className = 'day-item';
+        div.innerHTML = `
+      <div class="day-top-area">
+        <div class="day-top"><span class="day-date">${d.date} ${d.day}</span><span class="city-badge ${d.ck}">${d.city}</span></div>
+        <div class="day-meta"><span class="day-hotel">${d.hotel}</span>${d.memo ? `<span class="day-memo">${d.memo}</span>` : ''}</div>
+        ${hasItems ? `<div class="day-pills">${items.map(i => `<span class="pill ${i.type || 'spot'}">${i.name}</span>`).join('')}</div>` : '<div class="day-empty">아래 버튼으로 일정을 추가하세요</div>'}
+      </div>
+      <div class="day-actions">
+        <button class="day-action-btn add" data-date="${d.date}">+ 일정 추가</button>
+        <button class="day-action-btn course" data-date="${d.date}" ${hasItems ? '' : 'disabled'}>📋 코스 보기</button>
+      </div>`;
+        div.querySelector('.day-top-area').addEventListener('click', () => openDay(d.date));
+        div.querySelector('.day-action-btn.add').addEventListener('click', e => { e.stopPropagation(); curDate = d.date; renderAS(); openS(as); });
+        const courseBtn = div.querySelector('.day-action-btn.course');
+        courseBtn.addEventListener('click', e => { e.stopPropagation(); if (hasItems) openCourse(d.date); });
+        el.appendChild(div);
+      });
+    }
+
+    // ========== DAY DETAIL ==========
+    function openDay(dk) {
+      curDate = dk; const day = DAYS.find(d => d.date === dk); if (!day) return;
+      const items = S.sch[dk] || [];
+      document.getElementById('dsTitle').textContent = `${day.date} (${day.day}) ${day.city}`;
+      const b = document.getElementById('dsBody'); b.innerHTML = '';
+      // info
+      b.insertAdjacentHTML('beforeend', `<div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px;">
+    <span class="sm gray">${day.hotel}</span>${day.memo ? `<span class="sm orange">${day.memo}</span>` : ''}</div>`);
+      // transit card for travel days
+      if (day.transit && MAJOR_TRANSIT[day.transit]) {
+        const tr = MAJOR_TRANSIT[day.transit];
+        let th = `<div class="transit-card"><div class="transit-title">🚄 ${tr.label}</div>`;
+        tr.options.forEach(o => { th += `<div class="transit-opt"><div><div class="transit-name">${o.icon} ${o.name}</div><div class="transit-desc">${o.dur} · ${o.desc}</div></div><div class="transit-price">${o.price}</div></div>`; });
+        th += `<a class="transit-book" href="${tr.bookLink}" target="_blank">SNCF Connect에서 예약하기 →</a></div>`;
+        b.insertAdjacentHTML('beforeend', th);
+      }
+      if (!items.length) b.insertAdjacentHTML('beforeend', '<div class="empty">아직 추가된 일정이 없습니다</div>');
+      else items.forEach((it, i) => {
+        const det = itemDetail(it);
+        const row = document.createElement('div'); row.className = 'si';
+        row.innerHTML = `<div class="si-left"><div class="si-dot ${it.type || 'custom'}"></div><div style="min-width:0"><div class="si-name">${it.name}</div>${det ? `<div class="si-sub">${det}</div>` : ''}</div></div><button class="si-rm">&times;</button>`;
+        row.querySelector('.si-rm').onclick = e => { e.stopPropagation(); items.splice(i, 1); if (!items.length) delete S.sch[dk]; else S.sch[dk] = items; save(); toast('삭제했습니다'); openDay(dk); renderTL(); };
+        b.appendChild(row);
+      });
+      b.insertAdjacentHTML('beforeend', '<button class="add-btn" id="addBtnDay">+ 일정 추가</button>');
+      b.querySelector('#addBtnDay').onclick = () => { ds.classList.remove('show'); setTimeout(() => { renderAS(); openS(as); }, 100); };
+      openS(ds);
+    }
+    function itemDetail(it) {
+      if (it.type === 'museum') { const m = MUSEUMS.find(x => x.id === it.id); return m ? `${m.price} · ${m.dur}` : '' }
+      if (it.type === 'food') { const f = FOODS.find(x => x.id === it.id); return f ? `${f.price} · ${f.cat}` : '' }
+      if (it.type === 'tour') { const t = TOURS.find(x => x.id === it.id); return t ? `${t.price} · ${t.dur}` : '' }
+      if (it.type === 'spot') { const s = SPOTS.find(x => x.id === it.id); return s ? s.cat : '' }
+      return '';
+    }
+
+    // ========== COURSE SHEET ==========
+    function findItem(id, type) {
+      if (type === 'museum') return MUSEUMS.find(x => x.id === id);
+      if (type === 'food') return FOODS.find(x => x.id === id);
+      if (type === 'tour') return TOURS.find(x => x.id === id);
+      if (type === 'spot') return SPOTS.find(x => x.id === id);
+      // check custom
+      const c = S.custom.find(x => x.id === id);
+      if (c) return c;
+      return null;
+    }
+    function getZone(it) {
+      const src = findItem(it.id, it.type);
+      return src && src.zone ? src.zone : (it.zone || 'zzz');
+    }
+    function getGmap(it) {
+      const src = findItem(it.id, it.type);
+      return src && src.gmap ? src.gmap : (it.gmap || it.name);
+    }
+    function sortByZone(items, ck) {
+      const city = ck === 'nice' ? 'nice' : (ck === 'paris' ? 'paris' : null);
+      if (!city) return items;
+      const zo = ZONE_ORDER[city] || [];
+      return [...items].sort((a, b) => {
+        const ai = zo.indexOf(getZone(a)), bi = zo.indexOf(getZone(b));
+        return (ai === -1 ? 99 : ai) - (bi === -1 ? 99 : bi);
+      });
+    }
+    // duration parsing: "1~1.5h" → 75, "30min" → 30, "반나절" → 240
+    function parseDur(str) {
+      if (!str) return 45;
+      const hm = str.match(/(\d+\.?\d*)~(\d+\.?\d*)\s*h/i);
+      if (hm) return Math.round((parseFloat(hm[1]) + parseFloat(hm[2])) / 2 * 60);
+      const h1 = str.match(/(\d+\.?\d*)\s*h/i);
+      if (h1) return Math.round(parseFloat(h1[1]) * 60);
+      const mm = str.match(/(\d+)\s*min/i);
+      if (mm) return parseInt(mm[1]);
+      if (str.includes('반나절')) return 240;
+      return 45;
+    }
+    // zone 간 실제 이동시간 (분) - 구글맵 기반 사전 조사
+    const ZT = {
+      // === 니스 (버스/도보 기준) ===
+      // 치미에 (언덕, 마티스/샤갈) - 시내에서 버스 15/17번 20~25분
+      'nice-cimiez|nice-port': 25, 'nice-cimiez|nice-center': 20,
+      'nice-cimiez|nice-old': 25, 'nice-cimiez|nice-promenade': 25,
+      // 항구 - 구시가지 동쪽, 도보 10~15분
+      'nice-port|nice-center': 15, 'nice-port|nice-old': 10, 'nice-port|nice-promenade': 15,
+      // 시내 중심 (MAMAC, 마세나, Liberation) ↔ 구시가지 도보 8분
+      'nice-center|nice-old': 8, 'nice-center|nice-promenade': 8,
+      // 구시가지 ↔ 해변 도보 5분
+      'nice-old|nice-promenade': 5,
+      // 근교 (에즈 버스82번 30분, 모나코 기차 20분, 생폴드방스 버스400번 50분)
+      'nice-cimiez|nice-suburb': 50, 'nice-port|nice-suburb': 45,
+      'nice-center|nice-suburb': 45, 'nice-old|nice-suburb': 45, 'nice-promenade|nice-suburb': 45,
+
+      // === 파리 (메트로+도보 기준) ===
+      // 몽마르뜨 (18구, 사크레쾨르) - 북쪽 언덕
+      'paris-montmartre|paris-opera': 12, 'paris-montmartre|paris-louvre': 20,
+      'paris-montmartre|paris-marais': 22, 'paris-montmartre|paris-latin': 25,
+      'paris-montmartre|paris-stgermain': 25, 'paris-montmartre|paris-eiffel': 28,
+      // 오페라 (9구, 라파예트/자크마르앙드레)
+      'paris-opera|paris-louvre': 12, 'paris-opera|paris-marais': 15,
+      'paris-opera|paris-latin': 20, 'paris-opera|paris-stgermain': 18, 'paris-opera|paris-eiffel': 18,
+      // 루브르 (1구, 루브르/오랑주리/생트샤펠)
+      'paris-louvre|paris-marais': 15, 'paris-louvre|paris-latin': 12,
+      'paris-louvre|paris-stgermain': 10, 'paris-louvre|paris-eiffel': 18,
+      // 마레 (3-4구, 피카소/팔라펠/핑크맘마) - 도보 동네
+      'paris-marais|paris-latin': 12, 'paris-marais|paris-stgermain': 15, 'paris-marais|paris-eiffel': 22,
+      // 라탱 (5구, 노트르담/생마르탱운하)
+      'paris-latin|paris-stgermain': 8, 'paris-latin|paris-eiffel': 18,
+      // 생제르맹 (6-7구, 오르세/뤽상부르/봉막셰)
+      'paris-stgermain|paris-eiffel': 15,
+      // 근교 (베르사유 RER C 35~45분)
+      'paris-montmartre|paris-suburb': 50, 'paris-opera|paris-suburb': 45,
+      'paris-louvre|paris-suburb': 40, 'paris-marais|paris-suburb': 45,
+      'paris-latin|paris-suburb': 40, 'paris-stgermain|paris-suburb': 38, 'paris-eiffel|paris-suburb': 35
+    };
+    function zoneTravelMin(zA, zB) {
+      if (!zA || !zB || zA === zB) return 5;
+      const k1 = zA + '|' + zB, k2 = zB + '|' + zA;
+      return ZT[k1] || ZT[k2] || 20;
+    }
+    function fmtTime(min) { const h = Math.floor(min / 60), m = min % 60; return `${h}:${m < 10 ? '0' + m : m}`; }
+
+    function openCourse(dk) {
+      curDate = dk; const day = DAYS.find(d => d.date === dk); if (!day) return;
+      const items = S.sch[dk] || []; if (!items.length) return;
+      const city = day.ck === 'travel' ? 'paris' : (day.ck === 'nice' ? 'nice' : 'paris');
+      const hotelGmap = day.hgmap || day.hotel;
+      const hotelZone = day.hz || null;
+
+      // separate food vs non-food
+      const foods = [], others = [];
+      items.forEach(it => { (it.type === 'food' ? foods : others).push(it); });
+      const sorted = sortByZone(others, city);
+
+      // 식사 슬롯 배정: 점심(12:00), 저녁(18:30) 등 시간대별 분배
+      const mealSlots = [];
+      if (foods.length === 1) {
+        mealSlots.push({ item: foods[0], targetTime: 12 * 60, label: '점심' });
+      } else if (foods.length === 2) {
+        mealSlots.push({ item: foods[0], targetTime: 12 * 60, label: '점심' });
+        mealSlots.push({ item: foods[1], targetTime: 18.5 * 60, label: '저녁' });
+      } else if (foods.length >= 3) {
+        mealSlots.push({ item: foods[0], targetTime: 10 * 60, label: '브런치' });
+        mealSlots.push({ item: foods[1], targetTime: 13 * 60, label: '점심' });
+        mealSlots.push({ item: foods[2], targetTime: 18.5 * 60, label: '저녁' });
+        for (let i = 3; i < foods.length; i++) mealSlots.push({ item: foods[i], targetTime: 20 * 60 + (i - 3) * 60, label: '간식' });
+      }
+
+      const schedule = [];
+      let t = 9 * 60, prevZone = hotelZone, prevGmap = hotelGmap, mealIdx = 0;
+      schedule.push({ type: 'hotel', time: t, name: day.hotel, gmap: hotelGmap });
+
+      for (let i = 0; i < sorted.length; i++) {
+        const it = sorted[i];
+        const src = findItem(it.id, it.type);
+        const zone = getZone(it);
+        const gm = getGmap(it);
+        const dur = src ? parseDur(src.dur) : 45;
+
+        // 이 아이템 전에 식사를 넣어야 하는지 체크
+        while (mealIdx < mealSlots.length) {
+          const meal = mealSlots[mealIdx];
+          const travelToNext = zoneTravelMin(prevZone, zone);
+          const itemEndTime = t + travelToNext + dur;
+          if (t >= meal.targetTime - 30 || itemEndTime > meal.targetTime + 60) {
+            const mGmap = getGmap(meal.item), mZone = getZone(meal.item);
+            const mt = zoneTravelMin(prevZone, mZone);
+            schedule.push({ type: 'travel', min: mt, from: prevGmap, to: mGmap });
+            t += mt;
+            schedule.push({ type: 'meal', time: t, item: meal.item, dur: 60, label: meal.label });
+            t += 60; prevGmap = mGmap; prevZone = mZone; mealIdx++;
+          } else break;
+        }
+
+        const tv = zoneTravelMin(prevZone, zone);
+        schedule.push({ type: 'travel', min: tv, from: prevGmap, to: gm });
+        t += tv;
+        schedule.push({ type: 'place', time: t, item: it, src, dur });
+        t += dur; prevGmap = gm; prevZone = zone;
+      }
+
+      // 남은 식사 (non-food가 적어서 아직 안 넣은 것들)
+      while (mealIdx < mealSlots.length) {
+        const meal = mealSlots[mealIdx];
+        const mGmap = getGmap(meal.item), mZone = getZone(meal.item);
+        if (t < meal.targetTime - 30) t = meal.targetTime;
+        const mt = zoneTravelMin(prevZone, mZone);
+        schedule.push({ type: 'travel', min: mt, from: prevGmap, to: mGmap });
+        t += mt;
+        schedule.push({ type: 'meal', time: t, item: meal.item, dur: 60, label: meal.label });
+        t += 60; prevGmap = mGmap; prevZone = mZone; mealIdx++;
+      }
+
+      const tvHome = prevZone ? zoneTravelMin(prevZone, hotelZone) : 15;
+      schedule.push({ type: 'travel', min: tvHome, from: prevGmap, to: hotelGmap });
+      t += tvHome;
+      schedule.push({ type: 'hotel', time: t, name: day.hotel, gmap: hotelGmap });
+
+      // render
+      document.getElementById('csTitle').textContent = `${day.date} (${day.day}) 추천 코스`;
+      const b = document.getElementById('csBody');
+      let h = '';
+
+      schedule.forEach(s => {
+        if (s.type === 'hotel') {
+          h += `<div class="course-item"><div class="course-line"><div class="course-dot hotel"></div><div class="course-connector"></div></div><div class="course-info"><div class="course-name"><b>${fmtTime(s.time)}</b>&nbsp; 🏨 ${s.name}</div></div></div>`;
+        }
+        if (s.type === 'travel') {
+          const mode = s.min <= 8 ? '🚶 도보' : s.min <= 20 ? '🚶 도보 또는 🚌 버스/메트로' : '🚌 메트로/버스';
+          h += `<a class="course-dir" href="${gmapDir(s.from, s.to)}" target="_blank">${mode} ~${s.min}분 · 📍 구글맵으로 길찾기 →</a>`;
+        }
+        if (s.type === 'place') {
+          const it = s.item, src = s.src;
+          const emoji = TYPE_EMOJI[it.type] || '📌';
+          let meta = '약 ' + Math.round(s.dur / 15) * 15 + '분';
+          if (src) {
+            if (src.price) meta = src.price + ' · ' + meta;
+          }
+          h += `<div class="course-item"><div class="course-line"><div class="course-dot ${it.type || 'custom'}"></div><div class="course-connector"></div></div><div class="course-info"><div class="course-name"><b>${fmtTime(s.time)}</b>&nbsp; ${emoji} ${it.name}</div><div class="course-meta">${meta}</div></div></div>`;
+        }
+        if (s.type === 'meal') {
+          const it = s.item;
+          const src = findItem(it.id, it.type);
+          let meta = '약 1시간';
+          if (src && src.price) meta = src.price + ' · ' + meta;
+          h += `<div class="course-item"><div class="course-line"><div class="course-dot food"></div><div class="course-connector"></div></div><div class="course-info"><div class="course-name"><b>${fmtTime(s.time)}</b>&nbsp; 🍽️ ${it.name} <span class="sm orange">${s.label}</span></div><div class="course-meta">${meta}</div></div></div>`;
+        }
+      });
+
+      // summary
+      const totalHr = Math.round((t - 9 * 60) / 60 * 10) / 10;
+      let totalPrice = 0;
+      items.forEach(it => {
+        const src = findItem(it.id, it.type);
+        if (src && src.price && !src.free) { const m = src.price.match(/(\d+\.?\d*)/); if (m) totalPrice += parseFloat(m[1]); }
+      });
+      h += `<div class="course-summary">`;
+      h += `<b>⏱️ 예상 소요</b> 약 ${totalHr}시간 (${fmtTime(9 * 60)} ~ ${fmtTime(t)})<br>`;
+      if (totalPrice) h += `<b>💰 예상 비용</b> ~${totalPrice}€<br>`;
+      h += `<br><b>💡 팁</b><br>• 각 "구글맵으로 길찾기"를 탭 → 실시간 경로 확인<br>• 이동시간은 추정치입니다. 실제는 구글맵에서 확인하세요<br>• 맛집은 점심/저녁 시간대에 자동 배치됩니다</div>`;
+      b.innerHTML = h;
+      openS(cs);
+    }
+
+    // ========== ADD SHEET ==========
+    let addCat = 'museum';
+    function renderAS() {
+      const b = document.getElementById('asBody');
+      const day = DAYS.find(d => d.date === curDate);
+      const exist = new Set((S.sch[curDate] || []).map(x => x.id));
+      const cityPri = day && (day.ck === 'nice' || day.ck === 'paris') ? day.ck : null;
+      let h = `<div class="add-tabs">
+    ${['museum', 'food', 'tour', 'spot'].map(c => `<button class="add-tab ${addCat === c ? 'active' : ''}" data-ac="${c}">${{ museum: '미술관', food: '맛집', tour: '투어', spot: '관광지' }[c]}</button>`).join('')}
+  </div>`;
+
+      function sec(label) { h += `<div class="add-sec">${label}</div>`; }
+      function row(id, type, name, desc, badges, added) {
+        h += `<div class="add-row"><div class="ar-left"><div class="ar-name">${name}</div>${desc ? `<div class="ar-desc">${desc}</div>` : ''}<div class="ar-meta">${badges}</div></div><button class="ar-btn ${added ? 'done' : ''}" data-aid="${id}" data-at="${type}" data-an="${name}" ${added ? 'disabled' : ''}>${added ? '✓' : '+'}</button></div>`;
+      }
+
+      const order = (arr, ck) => {
+        if (!ck) return [{ items: arr, label: '전체' }];
+        const a = arr.filter(x => x.city === ck), b = arr.filter(x => x.city !== ck);
+        const la = ck === 'nice' ? '니스' : '파리', lb = ck === 'nice' ? '파리' : '니스';
+        const r = [{ items: a, label: la }];
+        if (b.length) r.push({ items: b, label: lb });
+        return r;
+      };
+
+      if (addCat === 'museum') {
+        order(MUSEUMS, cityPri).forEach(g => {
+          sec(g.label);
+          g.items.forEach(m => {
+            const bd = `<span class="sm blue">${m.price}</span><span class="sm gray">${m.dur}</span>${m.closed !== '없음' ? `<span class="sm red">${m.closed} 휴관</span>` : ''}${m.free ? '<span class="sm free">무료</span>' : ''}`;
+            row(m.id, 'museum', m.name, m.desc, bd, exist.has(m.id));
+          });
+        });
+      }
+      if (addCat === 'food') {
+        order(FOODS, cityPri).forEach(g => {
+          sec(g.label);
+          g.items.forEach(f => {
+            const bd = `<span class="sm orange">${f.price}</span><span class="sm gray">${f.cat}</span>${f.rsv.includes('필수') ? `<span class="sm pink">예약${f.rsv}</span>` : ''}${f.note ? `<span class="sm orange">${f.note}</span>` : ''}`;
+            row(f.id, 'food', f.name, f.desc, bd, exist.has(f.id));
+          });
+        });
+      }
+      if (addCat === 'tour') {
+        order(TOURS, cityPri).forEach(g => {
+          sec(g.label);
+          g.items.forEach(t => {
+            const bd = `<span class="sm green">${t.price}</span><span class="sm gray">${t.dur}</span>${t.note ? `<span class="sm orange">${t.note}</span>` : ''}`;
+            row(t.id, 'tour', t.name, '', bd, exist.has(t.id));
+          });
+        });
+      }
+      if (addCat === 'spot') {
+        order(SPOTS, cityPri).forEach(g => {
+          sec(g.label);
+          g.items.forEach(s => {
+            const bd = `<span class="sm teal">${s.cat}</span>`;
+            row(s.id, 'spot', s.name, s.desc, bd, exist.has(s.id));
+          });
+        });
+      }
+
+      // custom items for current category
+      const customForCat = S.custom.filter(c => c.type === addCat);
+      if (customForCat.length) {
+        sec('직접 추가한 항목');
+        customForCat.forEach(c => {
+          const bd = `<span class="sm purple">직접 추가</span>${c.price ? `<span class="sm gray">${c.price}</span>` : ''}`;
+          row(c.id, c.type, c.name, c.desc || '', bd, exist.has(c.id));
+        });
+      }
+
+      b.innerHTML = h;
+      b.querySelectorAll('.add-tab').forEach(t => t.onclick = () => { addCat = t.dataset.ac; renderAS(); });
+      b.querySelectorAll('.ar-btn:not(.done)').forEach(btn => btn.onclick = e => {
+        e.stopPropagation(); const { aid, at, an } = btn.dataset;
+        if (!S.sch[curDate]) S.sch[curDate] = [];
+        const entry = { id: aid, type: at, name: an };
+        // custom item인 경우 gmap도 저장
+        const cust = S.custom.find(c => c.id === aid);
+        if (cust) entry.gmap = cust.gmap;
+        S.sch[curDate].push(entry); save();
+        btn.classList.add('done'); btn.disabled = true; btn.textContent = '✓';
+        toast(an + ' 추가됨'); renderTL();
+      });
+    }
+
+    // ========== CONTENT PAGE ==========
+    let cCat = 'museum', cCity = 'nice', cSub = '전체';
+    const FOOD_SUBS = ['전체', '미슐랭', '부이용', '비스트로', '캐주얼', '아침', '먹음', '패스'];
+    const SPOT_SUBS_NICE = ['전체', '산책', '거리', '마켓', '전망', '광장', '근교'];
+    const SPOT_SUBS_PARIS = ['전체', '랜드마크', '거리', '건축', '공원', '전망', '쇼핑', '산책', '근교'];
+    const SC = ['none', 'eaten', 'pass'], SL = { none: '☐ 후보', eaten: '✅ 먹음', pass: '❌ 패스' };
+
+    function renderContent() {
+      // Cat tabs
+      document.getElementById('catTabs').innerHTML = ['museum', 'food', 'tour', 'spot'].map(c =>
+        `<button class="cat-tab ${cCat === c ? 'active' : ''}" data-cc="${c}">${{ museum: '미술관', food: '맛집', tour: '투어', spot: '관광지' }[c]}</button>`
+      ).join('');
+      document.querySelectorAll('[data-cc]').forEach(b => b.onclick = () => { cCat = b.dataset.cc; cSub = '전체'; renderContent(); });
+
+      // City toggle
+      document.getElementById('cityToggle').innerHTML =
+        `<button class="city-toggle-btn ${cCity === 'nice' ? 'active' : ''}" data-cv="nice">니스</button>
+     <button class="city-toggle-btn ${cCity === 'paris' ? 'active' : ''}" data-cv="paris">파리</button>`;
+      document.querySelectorAll('[data-cv]').forEach(b => b.onclick = () => { cCity = b.dataset.cv; cSub = '전체'; renderContent(); });
+
+      // Info box
+      const infoEl = document.getElementById('contentInfoBox');
+      infoEl.innerHTML = '';
+      if (cCat === 'museum' && MUSEUM_INFO[cCity]) {
+        infoEl.innerHTML = `<div class="info-box blue">${MUSEUM_INFO[cCity]}</div>`;
+      }
+
+      // Sub filter
+      const sfEl = document.getElementById('subFilter'); sfEl.innerHTML = '';
+      let subs = [];
+      if (cCat === 'food') subs = FOOD_SUBS;
+      else if (cCat === 'spot') subs = cCity === 'nice' ? SPOT_SUBS_NICE : SPOT_SUBS_PARIS;
+      subs.forEach(s => {
+        sfEl.insertAdjacentHTML('beforeend', `<button class="sf-btn ${cSub === s ? 'active' : ''}" data-sf="${s}">${s}</button>`);
+      });
+      sfEl.querySelectorAll('[data-sf]').forEach(b => b.onclick = () => { cSub = b.dataset.sf; renderContent(); });
+
+      // Card list
+      const list = document.getElementById('contentList'); list.innerHTML = '';
+      // custom items for current cat+city
+      const customs = S.custom.filter(c => c.type === cCat && c.city === cCity);
+      if (customs.length) {
+        customs.forEach(cx => {
+          const c = document.createElement('div'); c.className = 'ccard';
+          const emoji = TYPE_EMOJI[cx.type] || '📌';
+          const mainLink = cx.link || gmap(cx.gmap);
+          const linkLabel = cx.link ? '링크 열기' : '지도에서 보기';
+          c.innerHTML = `<div class="ccard-row"><div class="ccard-emoji">${emoji}</div><div class="ccard-body"><div class="ccard-name">${cx.name} <span class="sm purple">직접 추가</span></div>${cx.desc ? `<div class="ccard-desc">${cx.desc}</div>` : ''}
+        <div class="ccard-badges">${cx.price ? `<span class="sm gray">${cx.price}</span>` : ''}</div>
+        <div style="display:flex;gap:8px;margin-top:6px;flex-wrap:wrap;"><div class="ccard-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg> ${linkLabel}</div><span class="ccard-link" style="color:var(--red)" data-del="${cx.id}">삭제</span></div></div></div>`;
+          c.querySelector('[data-del]').onclick = e => { e.stopPropagation(); S.custom = S.custom.filter(x => x.id !== cx.id); save(); toast('삭제됨'); renderContent(); };
+          c.onclick = e => { if (e.target.closest('[data-del]')) return; window.open(mainLink, '_blank'); };
+          list.appendChild(c);
+        });
+      }
+
+      if (cCat === 'museum') {
+        MUSEUMS.filter(m => m.city === cCity).forEach(m => {
+          const c = document.createElement('div'); c.className = 'ccard';
+          c.innerHTML = `<div class="ccard-row"><div class="ccard-emoji">🎨</div><div class="ccard-body"><div class="ccard-name">${m.name}${m.free ? ' <span class="sm free">무료</span>' : ''}</div><div class="ccard-desc">${m.desc}</div>
+        <div class="ccard-badges"><span class="sm blue">${m.price}</span><span class="sm gray">${m.dur}</span>${m.closed !== '없음' ? `<span class="sm red">${m.closed} 휴관</span>` : ''}</div>
+        <div class="ccard-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg> Google 지도에서 보기</div></div></div>`;
+          c.onclick = () => window.open(gmap(m.gmap), '_blank');
+          list.appendChild(c);
+        });
+      }
+
+      if (cCat === 'food') {
+        let items = FOODS.filter(f => f.city === cCity);
+        if (cSub === '먹음') items = items.filter(f => (S.food[f.id] || 'none') === 'eaten');
+        else if (cSub === '패스') items = items.filter(f => (S.food[f.id] || 'none') === 'pass');
+        else if (cSub !== '전체') items = items.filter(f => f.cat === cSub);
+
+        if (!items.length) { list.innerHTML = '<div class="empty">해당하는 맛집이 없습니다</div>'; return; }
+        items.forEach(f => {
+          const st = S.food[f.id] || 'none';
+          const c = document.createElement('div'); c.className = 'ccard';
+          c.innerHTML = `<div class="ccard-row"><div class="ccard-emoji">🍽️</div><div class="ccard-body"><div class="ccard-top"><div><div class="ccard-name">${f.name}${f.note ? ` <span class="sm orange">${f.note}</span>` : ''}</div><div class="ccard-desc">${f.desc}</div></div>
+        <button class="st-chip" data-s="${st}" data-fid="${f.id}">${SL[st]}</button></div>
+        <div class="ccard-badges"><span class="sm orange">${f.price}</span><span class="sm gray">${f.cat}</span>${f.rsv.includes('필수') ? `<span class="sm pink">예약 ${f.rsv}</span>` : ''}</div>
+        <div class="ccard-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg> Google 지도에서 보기</div></div></div>`;
+          const chip = c.querySelector('.st-chip');
+          chip.onclick = e => { e.stopPropagation(); const ci = SC.indexOf(chip.dataset.s); const ns = SC[(ci + 1) % 3]; S.food[f.id] = ns; save(); chip.dataset.s = ns; chip.textContent = SL[ns]; };
+          c.addEventListener('click', e => { if (e.target.closest('.st-chip')) return; window.open(gmap(f.gmap), '_blank'); });
+          list.appendChild(c);
+        });
+      }
+
+      if (cCat === 'tour') {
+        TOURS.filter(t => t.city === cCity).forEach(t => {
+          const c = document.createElement('div'); c.className = 'ccard';
+          c.innerHTML = `<div class="ccard-row"><div class="ccard-emoji">🚶</div><div class="ccard-body"><div class="ccard-name">${t.name}${t.note ? ` <span class="sm orange">${t.note}</span>` : ''}</div>
+        <div class="ccard-badges"><span class="sm green">${t.price}</span><span class="sm gray">${t.dur}</span></div>
+        ${t.link ? `<div class="ccard-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg> 예약 페이지 열기</div>` : ''}</div></div>`;
+          c.onclick = () => { if (t.link) window.open(t.link, '_blank'); };
+          if (!t.link) c.style.cursor = 'default';
+          list.appendChild(c);
+        });
+      }
+
+      if (cCat === 'spot') {
+        let items = SPOTS.filter(s => s.city === cCity);
+        if (cSub !== '전체') items = items.filter(s => s.cat === cSub);
+        if (!items.length) { list.innerHTML = '<div class="empty">해당하는 관광지가 없습니다</div>'; return; }
+        items.forEach(s => {
+          const c = document.createElement('div'); c.className = 'ccard';
+          c.innerHTML = `<div class="ccard-row"><div class="ccard-emoji">📍</div><div class="ccard-body"><div class="ccard-name">${s.name}</div><div class="ccard-desc">${s.desc}</div>
+        <div class="ccard-badges"><span class="sm teal">${s.cat}</span></div>
+        <div class="ccard-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg> Google 지도에서 보기</div></div></div>`;
+          c.onclick = () => window.open(gmap(s.gmap), '_blank');
+          list.appendChild(c);
+        });
+      }
+
+      // "직접 추가" form at bottom of card list
+      const catLabel = { museum: '미술관', food: '맛집', tour: '투어', spot: '관광지' }[cCat];
+      const cityLabel = cCity === 'nice' ? '니스' : '파리';
+      const addWrap = document.createElement('div');
+      addWrap.innerHTML = `<button class="custom-toggle" id="contentCustomToggle">✏️ ${cityLabel} ${catLabel} 직접 추가하기</button>
+    <div class="custom-form" id="contentCustomForm" style="display:none">
+      <label>이름 *</label><input id="ccName" placeholder="예: ${cCat === 'food' ? '카페 드 플로르' : cCat === 'tour' ? '몽생미셸 투어' : cCat === 'museum' ? '퐁피두 센터' : '시테섬 산책'}">
+      <label>설명 (선택)</label><input id="ccDesc" placeholder="간단한 설명">
+      <label>가격 (선택)</label><input id="ccPrice" placeholder="예: €€ 또는 15~25€">
+      <label>링크 (선택)</label><input id="ccLink" placeholder="구글맵 링크, 예약 페이지, 블로그 등 아무 URL">
+      <button class="custom-submit" id="ccSubmit">컨텐츠에 추가</button>
+    </div>`;
+      list.appendChild(addWrap);
+      addWrap.querySelector('#contentCustomToggle').onclick = () => {
+        const f = addWrap.querySelector('#contentCustomForm');
+        f.style.display = f.style.display === 'none' ? 'block' : 'none';
+      };
+      addWrap.querySelector('#ccSubmit').onclick = () => {
+        const name = addWrap.querySelector('#ccName').value.trim();
+        if (!name) { toast('이름을 입력하세요'); return; }
+        const desc = addWrap.querySelector('#ccDesc').value.trim();
+        const price = addWrap.querySelector('#ccPrice').value.trim();
+        const link = addWrap.querySelector('#ccLink').value.trim();
+        const zo = cCity === 'nice' ? 'nice-center' : 'paris-louvre';
+        // 링크가 URL이면 link로, 아니면 gmap 검색어로 저장
+        const isUrl = link.startsWith('http') || link.startsWith('www');
+        const newItem = { id: 'CU' + Date.now(), name, desc, price, type: cCat, city: cCity, zone: zo, cat: cCat === 'food' ? '캐주얼' : cCat === 'spot' ? '기타' : '', rsv: '불필요', gmap: isUrl ? name + ' ' + cityLabel : link || name + ' ' + cityLabel };
+        if (isUrl) newItem.link = link;
+        S.custom.push(newItem); save();
+        toast(name + ' 추가됨'); renderContent();
+      };
+    }
+
+    // ========== CHECKLIST ==========
+    function renderChk() {
+      const w = document.getElementById('checkWrap'); w.innerHTML = '';
+      [['essential', '필수', '필수'], ['recommend', '추천', '추천']].forEach(([key, label]) => {
+        w.insertAdjacentHTML('beforeend', `<div class="chk-title">${label}</div>`);
+        const ul = document.createElement('div'); ul.className = 'chk-list';
+        SUPPLIES[key].forEach((item, i) => {
+          const k = `${key}_${i}`, done = S.chk[k] || false;
+          const el = document.createElement('div'); el.className = 'chk' + (done ? ' done' : '');
+          el.innerHTML = `<div class="chk-box">${done ? '✓' : ''}</div><div><div class="chk-text">${item.t}</div><div class="chk-memo">${item.m}</div></div>`;
+          el.onclick = () => { S.chk[k] = !S.chk[k]; save(); el.classList.toggle('done'); el.querySelector('.chk-box').textContent = S.chk[k] ? '✓' : ''; };
+          ul.appendChild(el);
+        });
+        w.appendChild(ul);
+      });
+    }
+
+    // ========== TIPS ==========
+    function renderTips() {
+      const w = document.getElementById('tipsWrap'); w.innerHTML = '';
+      Object.entries(TIPS).forEach(([g, items]) => {
+        const s = document.createElement('div'); s.className = 'tip-sec';
+        s.innerHTML = `<div class="tip-title">${g}</div>`;
+        items.forEach(t => { const c = document.createElement('div'); c.className = 'tip-c'; c.textContent = t; s.appendChild(c); });
+        w.appendChild(s);
+      });
+    }
+
+    // ========== INIT ==========
+    renderTL(); renderContent(); renderChk(); renderTips();
+  </script>
+</body>
+
+</html>

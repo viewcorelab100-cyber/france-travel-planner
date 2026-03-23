@@ -1,0 +1,433 @@
+{
+  "timestamp": "2026-02-24T07:13:46.190Z",
+  "reason": "compaction",
+  "status": {
+    "version": "2.0",
+    "lastUpdated": "2026-02-24T07:09:33.053Z",
+    "activeFeatures": [
+      "web",
+      "data",
+      "stores",
+      "layout",
+      "ui",
+      "content",
+      "timeline",
+      "checklist",
+      "tips"
+    ],
+    "primaryFeature": "web",
+    "features": {
+      "web": {
+        "phase": "do",
+        "phaseNumber": 3,
+        "matchRate": null,
+        "iterationCount": 0,
+        "requirements": [],
+        "documents": {},
+        "timestamps": {
+          "started": "2026-02-24T06:36:35.470Z",
+          "lastUpdated": "2026-02-24T07:09:33.053Z"
+        },
+        "lastFile": "C:\\Users\\이현수\\Desktop\\프랑스여행\\web\\src\\utils\\schedule.ts"
+      },
+      "data": {
+        "phase": "do",
+        "phaseNumber": 3,
+        "matchRate": null,
+        "iterationCount": 0,
+        "requirements": [],
+        "documents": {},
+        "timestamps": {
+          "started": "2026-02-24T06:39:50.338Z",
+          "lastUpdated": "2026-02-24T06:39:50.338Z"
+        },
+        "lastFile": "C:\\Users\\이현수\\Desktop\\프랑스여행\\web\\src\\data\\constants.ts"
+      },
+      "stores": {
+        "phase": "do",
+        "phaseNumber": 3,
+        "matchRate": null,
+        "iterationCount": 0,
+        "requirements": [],
+        "documents": {},
+        "timestamps": {
+          "started": "2026-02-24T06:40:35.168Z",
+          "lastUpdated": "2026-02-24T06:40:41.129Z"
+        },
+        "lastFile": "C:\\Users\\이현수\\Desktop\\프랑스여행\\web\\src\\stores\\checklist.ts"
+      },
+      "layout": {
+        "phase": "do",
+        "phaseNumber": 3,
+        "matchRate": null,
+        "iterationCount": 0,
+        "requirements": [],
+        "documents": {},
+        "timestamps": {
+          "started": "2026-02-24T06:40:56.696Z",
+          "lastUpdated": "2026-02-24T06:53:22.248Z"
+        },
+        "lastFile": "C:\\Users\\이현수\\Desktop\\프랑스여행\\web\\src\\components\\layout\\BottomSheet.tsx"
+      },
+      "ui": {
+        "phase": "do",
+        "phaseNumber": 3,
+        "matchRate": null,
+        "iterationCount": 0,
+        "requirements": [],
+        "documents": {},
+        "timestamps": {
+          "started": "2026-02-24T06:41:08.851Z",
+          "lastUpdated": "2026-02-24T06:53:26.220Z"
+        },
+        "lastFile": "C:\\Users\\이현수\\Desktop\\프랑스여행\\web\\src\\components\\ui\\Badge.tsx"
+      },
+      "content": {
+        "phase": "do",
+        "phaseNumber": 3,
+        "matchRate": null,
+        "iterationCount": 0,
+        "requirements": [],
+        "documents": {},
+        "timestamps": {
+          "started": "2026-02-24T06:41:22.330Z",
+          "lastUpdated": "2026-02-24T06:55:41.310Z"
+        },
+        "lastFile": "C:\\Users\\이현수\\Desktop\\프랑스여행\\web\\src\\components\\content\\CustomForm.tsx"
+      },
+      "timeline": {
+        "phase": "do",
+        "phaseNumber": 3,
+        "matchRate": null,
+        "iterationCount": 0,
+        "requirements": [],
+        "documents": {},
+        "timestamps": {
+          "started": "2026-02-24T06:41:35.946Z",
+          "lastUpdated": "2026-02-24T06:54:55.060Z"
+        },
+        "lastFile": "C:\\Users\\이현수\\Desktop\\프랑스여행\\web\\src\\components\\timeline\\Timeline.tsx"
+      },
+      "checklist": {
+        "phase": "do",
+        "phaseNumber": 3,
+        "matchRate": null,
+        "iterationCount": 0,
+        "requirements": [],
+        "documents": {},
+        "timestamps": {
+          "started": "2026-02-24T06:44:09.608Z",
+          "lastUpdated": "2026-02-24T06:55:46.859Z"
+        },
+        "lastFile": "C:\\Users\\이현수\\Desktop\\프랑스여행\\web\\src\\app\\checklist\\page.tsx"
+      },
+      "tips": {
+        "phase": "do",
+        "phaseNumber": 3,
+        "matchRate": null,
+        "iterationCount": 0,
+        "requirements": [],
+        "documents": {},
+        "timestamps": {
+          "started": "2026-02-24T06:44:13.498Z",
+          "lastUpdated": "2026-02-24T06:55:49.679Z"
+        },
+        "lastFile": "C:\\Users\\이현수\\Desktop\\프랑스여행\\web\\src\\app\\tips\\page.tsx"
+      }
+    },
+    "pipeline": {
+      "currentPhase": 1,
+      "level": "Dynamic",
+      "phaseHistory": []
+    },
+    "session": {
+      "startedAt": "2026-02-23T07:07:10.743Z",
+      "onboardingCompleted": false,
+      "lastActivity": "2026-02-24T07:09:33.053Z"
+    },
+    "history": [
+      {
+        "timestamp": "2026-02-24T06:36:35.470Z",
+        "feature": "web",
+        "phase": "do",
+        "action": "updated"
+      },
+      {
+        "timestamp": "2026-02-24T06:39:50.338Z",
+        "feature": "data",
+        "phase": "do",
+        "action": "updated"
+      },
+      {
+        "timestamp": "2026-02-24T06:39:57.642Z",
+        "feature": "web",
+        "phase": "do",
+        "action": "updated"
+      },
+      {
+        "timestamp": "2026-02-24T06:40:12.203Z",
+        "feature": "web",
+        "phase": "do",
+        "action": "updated"
+      },
+      {
+        "timestamp": "2026-02-24T06:40:25.998Z",
+        "feature": "web",
+        "phase": "do",
+        "action": "updated"
+      },
+      {
+        "timestamp": "2026-02-24T06:40:35.168Z",
+        "feature": "stores",
+        "phase": "do",
+        "action": "updated"
+      },
+      {
+        "timestamp": "2026-02-24T06:40:38.731Z",
+        "feature": "stores",
+        "phase": "do",
+        "action": "updated"
+      },
+      {
+        "timestamp": "2026-02-24T06:40:41.129Z",
+        "feature": "stores",
+        "phase": "do",
+        "action": "updated"
+      },
+      {
+        "timestamp": "2026-02-24T06:40:56.696Z",
+        "feature": "layout",
+        "phase": "do",
+        "action": "updated"
+      },
+      {
+        "timestamp": "2026-02-24T06:41:05.228Z",
+        "feature": "layout",
+        "phase": "do",
+        "action": "updated"
+      },
+      {
+        "timestamp": "2026-02-24T06:41:08.851Z",
+        "feature": "ui",
+        "phase": "do",
+        "action": "updated"
+      },
+      {
+        "timestamp": "2026-02-24T06:41:12.421Z",
+        "feature": "ui",
+        "phase": "do",
+        "action": "updated"
+      },
+      {
+        "timestamp": "2026-02-24T06:41:22.330Z",
+        "feature": "content",
+        "phase": "do",
+        "action": "updated"
+      },
+      {
+        "timestamp": "2026-02-24T06:41:35.946Z",
+        "feature": "timeline",
+        "phase": "do",
+        "action": "updated"
+      },
+      {
+        "timestamp": "2026-02-24T06:41:48.085Z",
+        "feature": "timeline",
+        "phase": "do",
+        "action": "updated"
+      },
+      {
+        "timestamp": "2026-02-24T06:42:15.905Z",
+        "feature": "timeline",
+        "phase": "do",
+        "action": "updated"
+      },
+      {
+        "timestamp": "2026-02-24T06:42:40.167Z",
+        "feature": "timeline",
+        "phase": "do",
+        "action": "updated"
+      },
+      {
+        "timestamp": "2026-02-24T06:42:57.348Z",
+        "feature": "timeline",
+        "phase": "do",
+        "action": "updated"
+      },
+      {
+        "timestamp": "2026-02-24T06:43:14.975Z",
+        "feature": "content",
+        "phase": "do",
+        "action": "updated"
+      },
+      {
+        "timestamp": "2026-02-24T06:43:28.978Z",
+        "feature": "content",
+        "phase": "do",
+        "action": "updated"
+      },
+      {
+        "timestamp": "2026-02-24T06:44:02.385Z",
+        "feature": "content",
+        "phase": "do",
+        "action": "updated"
+      },
+      {
+        "timestamp": "2026-02-24T06:44:09.608Z",
+        "feature": "checklist",
+        "phase": "do",
+        "action": "updated"
+      },
+      {
+        "timestamp": "2026-02-24T06:44:13.498Z",
+        "feature": "tips",
+        "phase": "do",
+        "action": "updated"
+      },
+      {
+        "timestamp": "2026-02-24T06:44:26.649Z",
+        "feature": "web",
+        "phase": "do",
+        "action": "updated"
+      },
+      {
+        "timestamp": "2026-02-24T06:44:40.126Z",
+        "feature": "web",
+        "phase": "do",
+        "action": "updated"
+      },
+      {
+        "timestamp": "2026-02-24T06:45:20.669Z",
+        "feature": "web",
+        "phase": "do",
+        "action": "updated"
+      },
+      {
+        "timestamp": "2026-02-24T06:45:30.549Z",
+        "feature": "web",
+        "phase": "do",
+        "action": "updated"
+      },
+      {
+        "timestamp": "2026-02-24T06:45:49.755Z",
+        "feature": "web",
+        "phase": "do",
+        "action": "updated"
+      },
+      {
+        "timestamp": "2026-02-24T06:46:28.612Z",
+        "feature": "content",
+        "phase": "do",
+        "action": "updated"
+      },
+      {
+        "timestamp": "2026-02-24T06:47:04.748Z",
+        "feature": "content",
+        "phase": "do",
+        "action": "updated"
+      },
+      {
+        "timestamp": "2026-02-24T06:53:10.601Z",
+        "feature": "web",
+        "phase": "do",
+        "action": "updated"
+      },
+      {
+        "timestamp": "2026-02-24T06:53:18.322Z",
+        "feature": "layout",
+        "phase": "do",
+        "action": "updated"
+      },
+      {
+        "timestamp": "2026-02-24T06:53:22.248Z",
+        "feature": "layout",
+        "phase": "do",
+        "action": "updated"
+      },
+      {
+        "timestamp": "2026-02-24T06:53:24.576Z",
+        "feature": "ui",
+        "phase": "do",
+        "action": "updated"
+      },
+      {
+        "timestamp": "2026-02-24T06:53:26.220Z",
+        "feature": "ui",
+        "phase": "do",
+        "action": "updated"
+      },
+      {
+        "timestamp": "2026-02-24T06:53:38.631Z",
+        "feature": "timeline",
+        "phase": "do",
+        "action": "updated"
+      },
+      {
+        "timestamp": "2026-02-24T06:53:48.585Z",
+        "feature": "timeline",
+        "phase": "do",
+        "action": "updated"
+      },
+      {
+        "timestamp": "2026-02-24T06:53:51.517Z",
+        "feature": "content",
+        "phase": "do",
+        "action": "updated"
+      },
+      {
+        "timestamp": "2026-02-24T06:54:16.705Z",
+        "feature": "timeline",
+        "phase": "do",
+        "action": "updated"
+      },
+      {
+        "timestamp": "2026-02-24T06:54:35.449Z",
+        "feature": "timeline",
+        "phase": "do",
+        "action": "updated"
+      },
+      {
+        "timestamp": "2026-02-24T06:54:42.662Z",
+        "feature": "web",
+        "phase": "do",
+        "action": "updated"
+      },
+      {
+        "timestamp": "2026-02-24T06:54:55.060Z",
+        "feature": "timeline",
+        "phase": "do",
+        "action": "updated"
+      },
+      {
+        "timestamp": "2026-02-24T06:55:28.374Z",
+        "feature": "content",
+        "phase": "do",
+        "action": "updated"
+      },
+      {
+        "timestamp": "2026-02-24T06:55:41.310Z",
+        "feature": "content",
+        "phase": "do",
+        "action": "updated"
+      },
+      {
+        "timestamp": "2026-02-24T06:55:46.859Z",
+        "feature": "checklist",
+        "phase": "do",
+        "action": "updated"
+      },
+      {
+        "timestamp": "2026-02-24T06:55:49.679Z",
+        "feature": "tips",
+        "phase": "do",
+        "action": "updated"
+      },
+      {
+        "timestamp": "2026-02-24T07:09:33.053Z",
+        "feature": "web",
+        "phase": "do",
+        "action": "updated"
+      }
+    ]
+  }
+}
