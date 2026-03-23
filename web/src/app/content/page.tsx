@@ -10,18 +10,57 @@ import MUSEUM_INFO from '@/data/museum-info.json';
 import { FOOD_SUBS, SPOT_SUBS_NICE, SPOT_SUBS_PARIS, FOOD_STATUS_LABEL } from '@/data/constants';
 import { useScheduleStore } from '@/stores/schedule';
 import { useFoodStatusStore } from '@/stores/food-status';
+import { useHiddenStore } from '@/stores/hidden';
 import { useToast } from '@/components/ui/Toast';
 import { gmap } from '@/utils/maps';
 import CustomForm from '@/components/content/CustomForm';
 
 const LINK_SVG = `<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>`;
 
+function HideBtn({ id }: { id: string }) {
+  const { hide } = useHiddenStore();
+  const toast = useToast((s) => s.show);
+  return (
+    <button
+      className="hide-btn"
+      onClick={(e) => { e.stopPropagation(); hide(id); toast('숨김 처리됨'); }}
+      title="숨기기"
+    >
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+      </svg>
+    </button>
+  );
+}
+
+function HiddenBanner({ count, onRestore }: { count: number; onRestore: () => void }) {
+  if (count === 0) return null;
+  return (
+    <button className="hidden-banner" onClick={onRestore}>
+      숨긴 항목 {count}개 보기
+    </button>
+  );
+}
+
+function RestoreCard({ id, name, onRestore }: { id: string; name: string; onRestore: (id: string) => void }) {
+  return (
+    <div className="ccard restore-card">
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+        <span style={{ fontSize: 14, color: 'var(--gray500)', textDecoration: 'line-through' }}>{name}</span>
+        <button className="restore-btn" onClick={() => onRestore(id)}>복원</button>
+      </div>
+    </div>
+  );
+}
+
 export default function ContentPage() {
   const [cat, setCat] = useState<ContentType>('museum');
   const [city, setCity] = useState<City>('nice');
   const [sub, setSub] = useState('전체');
+  const [showHidden, setShowHidden] = useState(false);
   const { custom, removeCustom } = useScheduleStore();
   const { status, cycle: cycleFoodStatus } = useFoodStatusStore();
+  const { ids: hiddenIds, restore, isHidden } = useHiddenStore();
   const toast = useToast((s) => s.show);
 
   const customs = custom.filter((c) => c.type === cat && c.city === city);
@@ -31,6 +70,38 @@ export default function ContentPage() {
   let subs: readonly string[] = [];
   if (cat === 'food') subs = FOOD_SUBS;
   else if (cat === 'spot') subs = city === 'nice' ? SPOT_SUBS_NICE : SPOT_SUBS_PARIS;
+
+  // 현재 카테고리+도시의 전체 ID 목록
+  function getAllIds(): string[] {
+    if (cat === 'museum') return (MUSEUMS as Museum[]).filter(m => m.city === city).map(m => m.id);
+    if (cat === 'food') return (FOODS as Food[]).filter(f => f.city === city).map(f => f.id);
+    if (cat === 'tour') return (TOURS as Tour[]).filter(t => t.city === city).map(t => t.id);
+    if (cat === 'spot') return (SPOTS as Spot[]).filter(s => s.city === city).map(s => s.id);
+    return [];
+  }
+
+  const allIds = getAllIds();
+  const hiddenCount = allIds.filter((id) => hiddenIds.has(id)).length;
+
+  // 숨긴 항목 이름 가져오기
+  function getHiddenItems(): { id: string; name: string }[] {
+    return allIds.filter((id) => hiddenIds.has(id)).map((id) => {
+      const m = (MUSEUMS as Museum[]).find(x => x.id === id);
+      if (m) return { id, name: m.name };
+      const f = (FOODS as Food[]).find(x => x.id === id);
+      if (f) return { id, name: f.name };
+      const t = (TOURS as Tour[]).find(x => x.id === id);
+      if (t) return { id, name: t.name };
+      const s = (SPOTS as Spot[]).find(x => x.id === id);
+      if (s) return { id, name: s.name };
+      return { id, name: id };
+    });
+  }
+
+  function handleRestore(id: string) {
+    restore(id);
+    toast('복원됨');
+  }
 
   return (
     <div>
@@ -42,7 +113,7 @@ export default function ContentPage() {
       {/* Cat tabs */}
       <div className="cat-tabs">
         {(['museum', 'food', 'tour', 'spot'] as ContentType[]).map((c) => (
-          <button key={c} onClick={() => { setCat(c); setSub('전체'); }}
+          <button key={c} onClick={() => { setCat(c); setSub('전체'); setShowHidden(false); }}
             className={`cat-tab ${cat === c ? 'active' : ''}`}>
             {catLabels[c]}
           </button>
@@ -52,7 +123,7 @@ export default function ContentPage() {
       {/* City toggle */}
       <div className="city-toggle">
         {(['nice', 'paris'] as City[]).map((c) => (
-          <button key={c} onClick={() => { setCity(c); setSub('전체'); }}
+          <button key={c} onClick={() => { setCity(c); setSub('전체'); setShowHidden(false); }}
             className={`city-toggle-btn ${city === c ? 'active' : ''}`}>
             {c === 'nice' ? '니스' : '파리'}
           </button>
@@ -103,8 +174,9 @@ export default function ContentPage() {
         })}
 
         {/* Museum */}
-        {cat === 'museum' && (MUSEUMS as Museum[]).filter(m => m.city === city).map(m => (
+        {cat === 'museum' && (MUSEUMS as Museum[]).filter(m => m.city === city && !isHidden(m.id)).map(m => (
           <div key={m.id} className="ccard" onClick={() => window.open(gmap(m.gmap), '_blank')}>
+            <HideBtn id={m.id} />
             <div className="ccard-row">
               <div className="ccard-emoji">🎨</div>
               <div className="ccard-body">
@@ -123,7 +195,7 @@ export default function ContentPage() {
 
         {/* Food */}
         {cat === 'food' && (() => {
-          let items = (FOODS as Food[]).filter(f => f.city === city);
+          let items = (FOODS as Food[]).filter(f => f.city === city && !isHidden(f.id));
           if (sub === '먹음') items = items.filter(f => (status[f.id] || 'none') === 'eaten');
           else if (sub === '패스') items = items.filter(f => (status[f.id] || 'none') === 'pass');
           else if (sub !== '전체') items = items.filter(f => f.cat === sub);
@@ -133,6 +205,7 @@ export default function ContentPage() {
             const st = status[f.id] || 'none';
             return (
               <div key={f.id} className="ccard" onClick={() => window.open(gmap(f.gmap), '_blank')}>
+                <HideBtn id={f.id} />
                 <div className="ccard-row">
                   <div className="ccard-emoji">🍽️</div>
                   <div className="ccard-body">
@@ -159,9 +232,10 @@ export default function ContentPage() {
         })()}
 
         {/* Tour */}
-        {cat === 'tour' && (TOURS as Tour[]).filter(t => t.city === city).map(t => (
+        {cat === 'tour' && (TOURS as Tour[]).filter(t => t.city === city && !isHidden(t.id)).map(t => (
           <div key={t.id} className="ccard" onClick={() => { if (t.link) window.open(t.link, '_blank'); }}
             style={t.link ? {} : { cursor: 'default' }}>
+            <HideBtn id={t.id} />
             <div className="ccard-row">
               <div className="ccard-emoji">🚶</div>
               <div className="ccard-body">
@@ -178,11 +252,12 @@ export default function ContentPage() {
 
         {/* Spot */}
         {cat === 'spot' && (() => {
-          let items = (SPOTS as Spot[]).filter(s => s.city === city);
+          let items = (SPOTS as Spot[]).filter(s => s.city === city && !isHidden(s.id));
           if (sub !== '전체') items = items.filter(s => s.cat === sub);
           if (!items.length) return <div className="empty">해당하는 관광지가 없습니다</div>;
           return items.map(s => (
             <div key={s.id} className="ccard" onClick={() => window.open(gmap(s.gmap), '_blank')}>
+              <HideBtn id={s.id} />
               <div className="ccard-row">
                 <div className="ccard-emoji">📍</div>
                 <div className="ccard-body">
@@ -195,6 +270,12 @@ export default function ContentPage() {
             </div>
           ));
         })()}
+
+        {/* Hidden items banner + restore */}
+        <HiddenBanner count={hiddenCount} onRestore={() => setShowHidden(!showHidden)} />
+        {showHidden && getHiddenItems().map((item) => (
+          <RestoreCard key={item.id} id={item.id} name={item.name} onRestore={handleRestore} />
+        ))}
 
         <CustomForm cat={cat} city={city} />
       </div>
