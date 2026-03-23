@@ -3,6 +3,7 @@
 import { useState, useRef, useEffect } from 'react';
 import type { Day, ScheduleItem, CustomItem } from '@/types';
 import { useMemoStore } from '@/stores/memo';
+import { gmap } from '@/utils/maps';
 import MUSEUMS from '@/data/museums.json';
 import FOODS from '@/data/foods.json';
 import TOURS from '@/data/tours.json';
@@ -100,7 +101,10 @@ export default function DaySheet({ day, items, customItems, onRemove, onAdd }: D
   return (
     <div>
       <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px', marginBottom: '14px' }}>
-        <span className="sm gray">{day.hotel}</span>
+        <button className="sm-hotel-btn" onClick={() => window.open(gmap(day.hgmap), '_blank')}>
+          <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          {day.hotel}
+        </button>
         {day.memo && <span className="sm orange">{day.memo}</span>}
       </div>
 
