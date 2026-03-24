@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "lastUpdated": "2026-03-23T09:17:16.096Z",
+  "lastUpdated": "2026-03-23T10:16:35.292Z",
   "activeFeatures": [
     "web",
     "data",
@@ -23,9 +23,9 @@
       "documents": {},
       "timestamps": {
         "started": "2026-02-24T06:36:35.470Z",
-        "lastUpdated": "2026-03-23T09:16:30.291Z"
+        "lastUpdated": "2026-03-23T10:01:50.645Z"
       },
-      "lastFile": "C:/Users/이현수/Desktop/프랑스여행/web/src/app/layout.tsx"
+      "lastFile": "C:/Users/이현수/Desktop/프랑스여행/web/src/components/SupabaseInit.tsx"
     },
     "data": {
       "phase": "do",
@@ -49,9 +49,9 @@
       "documents": {},
       "timestamps": {
         "started": "2026-02-24T06:40:35.168Z",
-        "lastUpdated": "2026-03-23T09:16:10.630Z"
+        "lastUpdated": "2026-03-23T10:01:38.415Z"
       },
-      "lastFile": "C:/Users/이현수/Desktop/프랑스여행/web/src/stores/memo.ts"
+      "lastFile": "C:/Users/이현수/Desktop/프랑스여행/web/src/stores/hidden.ts"
     },
     "layout": {
       "phase": "do",
@@ -88,9 +88,9 @@
       "documents": {},
       "timestamps": {
         "started": "2026-02-24T06:41:22.330Z",
-        "lastUpdated": "2026-02-24T07:16:09.111Z"
+        "lastUpdated": "2026-03-23T10:02:35.911Z"
       },
-      "lastFile": "C:\\Users\\이현수\\Desktop\\프랑스여행\\web\\src\\components\\content\\ContentCard.tsx"
+      "lastFile": "C:/Users/이현수/Desktop/프랑스여행/web/src/app/content/page.tsx"
     },
     "timeline": {
       "phase": "do",
@@ -101,9 +101,9 @@
       "documents": {},
       "timestamps": {
         "started": "2026-02-24T06:41:35.946Z",
-        "lastUpdated": "2026-03-23T09:17:16.096Z"
+        "lastUpdated": "2026-03-23T10:16:35.292Z"
       },
-      "lastFile": "C:/Users/이현수/Desktop/프랑스여행/web/src/components/timeline/DayCard.tsx"
+      "lastFile": "C:/Users/이현수/Desktop/프랑스여행/web/src/components/timeline/DaySheet.tsx"
     },
     "checklist": {
       "phase": "do",
@@ -140,7 +140,7 @@
   "session": {
     "startedAt": "2026-02-23T07:07:10.743Z",
     "onboardingCompleted": false,
-    "lastActivity": "2026-03-23T09:17:16.096Z"
+    "lastActivity": "2026-03-23T10:16:35.292Z"
   },
   "history": [
     {
@@ -553,6 +553,48 @@
     },
     {
       "timestamp": "2026-03-23T09:17:16.096Z",
+      "feature": "timeline",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-23T10:01:38.415Z",
+      "feature": "stores",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-23T10:01:50.645Z",
+      "feature": "web",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-23T10:02:35.911Z",
+      "feature": "content",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-23T10:16:07.098Z",
+      "feature": "timeline",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-23T10:16:19.096Z",
+      "feature": "timeline",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-23T10:16:25.949Z",
+      "feature": "timeline",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-23T10:16:35.292Z",
       "feature": "timeline",
       "phase": "do",
       "action": "updated"
