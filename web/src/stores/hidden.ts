@@ -17,22 +17,22 @@ export const useHiddenStore = create<HiddenState>()((set, get) => ({
   ids: new Set(),
   ready: false,
 
-  hide: (id) => {
+  hide: async (id) => {
     set((s) => {
       const ids = new Set(s.ids);
       ids.add(id);
       return { ids };
     });
-    supabase.from('hidden_items').upsert({ id, updated_at: new Date().toISOString() });
+    await supabase.from('hidden_items').upsert({ id, updated_at: new Date().toISOString() });
   },
 
-  restore: (id) => {
+  restore: async (id) => {
     set((s) => {
       const ids = new Set(s.ids);
       ids.delete(id);
       return { ids };
     });
-    supabase.from('hidden_items').delete().eq('id', id);
+    await supabase.from('hidden_items').delete().eq('id', id);
   },
 
   isHidden: (id) => get().ids.has(id),

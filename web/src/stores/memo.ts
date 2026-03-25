@@ -15,12 +15,12 @@ export const useMemoStore = create<MemoState>()((set, get) => ({
   memos: {},
   ready: false,
 
-  setMemo: (date, content) => {
+  setMemo: async (date, content) => {
     set((s) => ({ memos: { ...s.memos, [date]: content } }));
     if (content.trim() === '') {
-      supabase.from('memos').delete().eq('date', date);
+      await supabase.from('memos').delete().eq('date', date);
     } else {
-      supabase.from('memos').upsert({ date, content, updated_at: new Date().toISOString() });
+      await supabase.from('memos').upsert({ date, content, updated_at: new Date().toISOString() });
     }
   },
 

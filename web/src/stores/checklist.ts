@@ -15,12 +15,10 @@ export const useChecklistStore = create<ChecklistState>()((set, get) => ({
   chk: {},
   ready: false,
 
-  toggle: (key) => {
-    set((s) => {
-      const next = !s.chk[key];
-      supabase.from('checklist').upsert({ key, checked: next, updated_at: new Date().toISOString() });
-      return { chk: { ...s.chk, [key]: next } };
-    });
+  toggle: async (key) => {
+    const next = !get().chk[key];
+    set((s) => ({ chk: { ...s.chk, [key]: next } }));
+    await supabase.from('checklist').upsert({ key, checked: next, updated_at: new Date().toISOString() });
   },
 
   isChecked: (key) => get().chk[key] || false,

@@ -19,13 +19,11 @@ export const useFoodStatusStore = create<FoodStatusState>()((set, get) => ({
   status: {},
   ready: false,
 
-  cycle: (id) => {
-    set((s) => {
-      const cur = s.status[id] || 'none';
-      const next = CYCLE[(CYCLE.indexOf(cur) + 1) % 3];
-      supabase.from('food_statuses').upsert({ food_id: id, status: next, updated_at: new Date().toISOString() });
-      return { status: { ...s.status, [id]: next } };
-    });
+  cycle: async (id) => {
+    const cur = get().status[id] || 'none';
+    const next = CYCLE[(CYCLE.indexOf(cur) + 1) % 3];
+    set((s) => ({ status: { ...s.status, [id]: next } }));
+    await supabase.from('food_statuses').upsert({ food_id: id, status: next, updated_at: new Date().toISOString() });
   },
 
   getStatus: (id) => get().status[id] || 'none',
