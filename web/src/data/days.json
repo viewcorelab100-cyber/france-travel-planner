@@ -3,7 +3,7 @@
   {"date":"3/31","day":"화","city":"니스","ck":"nice","memo":"마티스/샤갈/팔레라스카리 휴관","hotel":"Westminster Hotel & Spa","hgmap":"Westminster Hotel Spa Nice","hz":"nice-promenade"},
   {"date":"4/1","day":"수","city":"니스","ck":"nice","memo":"전체 개관","hotel":"Westminster Hotel & Spa","hgmap":"Westminster Hotel Spa Nice","hz":"nice-promenade"},
   {"date":"4/2","day":"목","city":"니스","ck":"nice","memo":"전체 개관, Negresco 체크인","hotel":"Hotel Negresco","hgmap":"Hotel Negresco Nice","hz":"nice-promenade"},
-  {"date":"4/3","day":"금","city":"파리 이동","ck":"travel","memo":"루브르 야간개장(~21:45)","hotel":"Dandy Hotel","hgmap":"Dandy Hotel Paris","transit":"nice→paris","hz":"paris-opera"},
+  {"date":"4/3","day":"금","city":"파리 이동","ck":"travel","memo":"Nice-Ville 11:57 출발 TGV 예약완료 → 루브르 야간개장(~21:45)","hotel":"Dandy Hotel","hgmap":"Dandy Hotel Paris","transit":"nice→paris","hz":"paris-opera"},
   {"date":"4/4","day":"토","city":"파리","ck":"paris","memo":"루브르 18시~ 무료 (첫째 토)","hotel":"Dandy Hotel","hgmap":"Dandy Hotel Paris","hz":"paris-opera"},
   {"date":"4/5","day":"일","city":"파리","ck":"paris","memo":"오르세+오랑주리+피카소 무료, 부활절","hotel":"Dandy Hotel","hgmap":"Dandy Hotel Paris","hz":"paris-opera"},
   {"date":"4/6","day":"월","city":"파리","ck":"paris","memo":"오르세/로댕/프티팔레/피카소 휴관","hotel":"Novotel Les Halles","hgmap":"Novotel Paris Les Halles","hz":"paris-louvre"},

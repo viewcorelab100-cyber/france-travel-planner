@@ -103,8 +103,17 @@ export interface TransitOption {
   desc: string;
 }
 
+export interface BookedTransit {
+  type: string;
+  from: string;
+  depart: string;
+  dur: string;
+  arrive: string;
+}
+
 export interface MajorTransit {
   label: string;
+  booked?: BookedTransit;
   options: TransitOption[];
   bookLink: string;
 }
