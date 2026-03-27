@@ -20,6 +20,16 @@ interface DaySheetProps {
   onAdd: () => void;
 }
 
+function itemLink(it: ScheduleItem, customItems: CustomItem[]): string | null {
+  const c = customItems.find((x) => x.id === it.id);
+  if (c) return c.gmap ? gmap(c.gmap) : c.link || null;
+  if (it.type === 'museum') { const m = MUSEUMS.find((x) => x.id === it.id); return m?.gmap ? gmap(m.gmap) : null; }
+  if (it.type === 'food') { const f = FOODS.find((x) => x.id === it.id); return f?.gmap ? gmap(f.gmap) : null; }
+  if (it.type === 'tour') { const t = TOURS.find((x) => x.id === it.id); return t?.link || (t?.gmap ? gmap(t.gmap) : null); }
+  if (it.type === 'spot') { const s = SPOTS.find((x) => x.id === it.id); return s?.gmap ? gmap(s.gmap) : null; }
+  return null;
+}
+
 function itemDetail(it: ScheduleItem, customItems: CustomItem[]): string {
   const c = customItems.find((x) => x.id === it.id);
   if (c) return [c.price, c.cat].filter(Boolean).join(' · ') || '직접 추가';
@@ -117,8 +127,9 @@ export default function DaySheet({ day, items, customItems, onRemove, onAdd }: D
       ) : (
         items.map((it, i) => {
           const det = itemDetail(it, customItems);
+          const link = itemLink(it, customItems);
           return (
-            <div key={i} className="si">
+            <div key={i} className={`si${link ? ' si-link' : ''}`} onClick={link ? () => window.open(link, '_blank') : undefined} style={link ? { cursor: 'pointer' } : undefined}>
               <div className="si-left">
                 <div className={`si-dot ${it.type || 'custom'}`} />
                 <div style={{ minWidth: 0 }}>
@@ -126,11 +137,12 @@ export default function DaySheet({ day, items, customItems, onRemove, onAdd }: D
                     {it.userTime && <span className="sm blue" style={{ marginRight: 4 }}>{it.userTime}</span>}
                     {it.name}
                     {it.reserved && <span className="sm pink" style={{ marginLeft: 4 }}>예약</span>}
+                    {link && <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ marginLeft: 4, opacity: 0.4, flexShrink: 0 }}><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>}
                   </div>
                   {det && <div className="si-sub">{det}</div>}
                 </div>
               </div>
-              <button className="si-rm" onClick={() => onRemove(i)}>✕</button>
+              <button className="si-rm" onClick={(e) => { e.stopPropagation(); onRemove(i); }}>✕</button>
             </div>
           );
         })

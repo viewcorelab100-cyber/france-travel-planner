@@ -737,6 +737,13 @@ a {
   margin-bottom: 8px;
 }
 
+.si.si-link {
+  transition: background 0.15s;
+}
+.si.si-link:active {
+  background: var(--gray100);
+}
+
 .si-left {
   display: flex;
   align-items: center;
@@ -778,6 +785,8 @@ a {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  display: flex;
+  align-items: center;
 }
 
 .si-sub {
